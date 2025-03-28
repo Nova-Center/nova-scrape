@@ -6,6 +6,7 @@ module fr.nova.novascrape {
     requires org.kordamp.bootstrapfx.core;
     requires MaterialFX;
     requires fr.brouillard.oss.cssfx;
+    requires org.jsoup;
 
     opens fr.nova.novascrape to javafx.fxml;
     exports fr.nova.novascrape;
