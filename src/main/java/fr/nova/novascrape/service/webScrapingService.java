@@ -1,6 +1,5 @@
 package fr.nova.novascrape.service;
 
-import fr.nova.novascrape.model.Commerce;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
