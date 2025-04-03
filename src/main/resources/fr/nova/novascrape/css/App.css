@@ -74,7 +74,7 @@
 }
 
 .rootPane .sidebar .header .mfx-font-icon {
-	-mfx-color: white;
+	-mfx-color: black;
 }
 
 .rootPane .sidebar .mfx-scroll-pane {
@@ -100,7 +100,7 @@
 
 	-fx-font-family: 'Open Sans SemiBold';
 	-fx-font-size: 13;
-	-fx-text-fill: white;
+	-fx-text-fill: -nova-text;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node .mfx-ripple-generator {
@@ -108,20 +108,20 @@
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node .mfx-icon-wrapper .mfx-font-icon {
-	-mfx-color: white;
+	-mfx-color: -nova-text;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected {
 	-fx-background-color: white;
 	-fx-background-radius: 5;
-	-fx-text-fill: #601cbe;
+	-fx-text-fill: -nova-blue;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected .selection-rectangle {
 	-fx-stroke: transparent;
-	-fx-fill: #601cbe;
+	-fx-fill: -nova-blue;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected .mfx-icon-wrapper .mfx-font-icon {
-	-mfx-color: #601cbe;
+	-mfx-color: -nova-blue;
 }

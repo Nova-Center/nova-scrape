@@ -1,6 +1,7 @@
 package fr.nova.novascrape;
 
 import fr.brouillard.oss.cssfx.CSSFX;
+import fr.nova.novascrape.controller.ApplicationController;
 import io.github.palexdev.materialfx.theming.JavaFXThemes;
 import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
 import io.github.palexdev.materialfx.theming.UserAgentBuilder;
@@ -16,7 +17,7 @@ import java.util.Objects;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        		CSSFX.start();
+        CSSFX.start();
 
 		UserAgentBuilder.builder()
 			.themes(JavaFXThemes.MODENA)
@@ -26,7 +27,8 @@ public class Application extends javafx.application.Application {
 			.build()
 			.setGlobal();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/app-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/Application.fxml"));
+        fxmlLoader.setControllerFactory(__ -> new ApplicationController(stage));
         Scene scene = new Scene(fxmlLoader.load());
 
 		stage.initStyle(StageStyle.DECORATED);
