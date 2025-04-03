@@ -117,4 +117,29 @@ public class WebScrapingService {
 
     }
 
+    //Pour les infos du garage du quartier
+    public void extraireInfosGarage() {
+        try {
+            Document doc = Jsoup.connect("https://www.garage-st-antoine.com/garage-saint-antoine-specialiste-bmw-mini-paris-nation-qui-sommes-nous").get();
+            Elements elements = doc.select("div.textwidget");
+
+            // Nom du garage
+            String nom = "Garage Saint-Antoine";
+
+            // Adresse
+            String adresse = elements.select("h3").first().text();
+
+            // Téléphone
+            String telephone = doc.select("a[href^=tel:]").attr("href").replace("tel:", "");
+
+            // Affichage des informations
+            System.out.println("Nom du garage : " + nom);
+            System.out.println("Adresse : " + adresse);
+            System.out.println("Téléphone : " + telephone);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
