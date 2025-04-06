@@ -1,0 +1,30 @@
+@import "Colors.css";
+
+.grid-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0 5 0 5;
+}
+
+.card {
+    -fx-border-radius: 10;
+    -fx-padding: 10;
+    -fx-border-color: -nova-text-disabled;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.0, 0, 1);
+}
+
+.card-button {
+    -fx-background-color: -nova-blue;
+    -fx-text-fill: white;
+}
+
+.card-title {
+    -fx-font-size: 20;
+    -fx-text-fill: -nova-text-he;
+    -fx-font-weight: bold;
+}
+
+.card-address {
+    -fx-font-size: 14;
+    -fx-text-fill: -nova-text-me;
+}

@@ -1,6 +1,34 @@
-<?import javafx.scene.layout.VBox?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.Label?>
-<VBox
-      xmlns="http://javafx.com/javafx/17">
-    <Label text="Supermarché"/>
-</VBox>
+<?import javafx.scene.control.ScrollPane?>
+
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import javafx.geometry.Insets?>
+<GridPane fx:controller="fr.nova.novascrape.controller.SupermarketController" alignment="CENTER" hgap="20.0"
+          styleClass="grid-pane" vgap="20.0" stylesheets="@../css/Supermarket.css"
+          xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+>
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="32.0" vgrow="NEVER"/>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+
+    <!-- ScrollPane avec les cartes -->
+    <MFXScrollPane fitToWidth="true" fitToHeight="true" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                   hbarPolicy="NEVER">
+        <padding>
+            <Insets right="20" left="20"/>
+        </padding>
+        <FlowPane fx:id="cardContainer" hgap="20" vgap="20"
+                  prefWrapLength="600"/>
+    </MFXScrollPane>
+</GridPane>

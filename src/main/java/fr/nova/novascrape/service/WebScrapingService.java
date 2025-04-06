@@ -2,7 +2,7 @@ package fr.nova.novascrape.service;
 
 import fr.nova.novascrape.model.base.Restaurant;
 import fr.nova.novascrape.model.base.SalonCoiffure;
-import fr.nova.novascrape.model.base.Supermarche;
+import fr.nova.novascrape.model.base.Supermarket;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -15,10 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WebScrapingService {
-
-    //Pour récupérer tous les supermarché du quartier
-    public void recupererCommercesProches() {
-        List<Supermarche> commerces = new ArrayList<>();
+    public List<Supermarket> getSupermarkets() {
+        List<Supermarket> supermarkets = new ArrayList<>();
         String url = "https://www.bonial.fr/Magasins/Paris/Supermarches/v-c5";
         try {
             Document doc = Jsoup.connect(url).get();
@@ -28,19 +26,13 @@ public class WebScrapingService {
                 String nom = storeElement.select("div.font-semibold").text();
                 String adresse = storeElement.select("div.text-sm").text();
                 String detailsUrl = storeElement.attr("href");
-                commerces.add(new Supermarche(nom, adresse, detailsUrl));
-            }
-            for (Supermarche commerce : commerces) {
-                String s = "Commerce{" + '\n' +
-                        "nom=" + commerce.nom + '\n' +
-                        "adresse=" + commerce.adresse + '\n' +
-                        "detailsUrl=" + commerce.detailsUrl + '\n' +
-                        '}';
-                System.out.println(s);
+                supermarkets.add(new Supermarket(nom, adresse, detailsUrl));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return supermarkets;
     }
 
     //Pour récuperer les Salon de coiffure du quartier

@@ -2,7 +2,7 @@ package fr.nova.novascrape.service;
 
 import fr.nova.novascrape.model.detail.RestaurantDetail;
 import fr.nova.novascrape.model.detail.SalonDetail;
-import fr.nova.novascrape.model.detail.SupermarcheDetail;
+import fr.nova.novascrape.model.detail.SupermarketDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -108,7 +108,7 @@ public class WebScrapingDetail {
 
 //    //Récuperation du detail via l'url de detail (pour les supermarcge) (pas completement focntionnel)
     public void recupererDetailSupermarche(String urlDetail) {
-        SupermarcheDetail supermarche = null;
+        SupermarketDetails supermarche = null;
 
         try {
             Document doc = Jsoup.connect(urlDetail).get();
@@ -128,7 +128,7 @@ public class WebScrapingDetail {
             }
 
             // Création de l'objet SupermarcheDetail
-            supermarche = new SupermarcheDetail(nom, adresse, telephone, horaires.toString());
+            supermarche = new SupermarketDetails(nom, adresse, telephone, horaires.toString());
 
         } catch (IOException e) {
             e.printStackTrace();

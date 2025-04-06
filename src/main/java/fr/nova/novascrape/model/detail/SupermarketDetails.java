@@ -1,12 +1,12 @@
 package fr.nova.novascrape.model.detail;
 
-public class SupermarcheDetail {
+public class SupermarketDetails {
     String nom;
     String adresse;
     String telephone;
     String horaires;
 
-    public SupermarcheDetail(String nom, String adresse, String telephone, String horaires) {
+    public SupermarketDetails(String nom, String adresse, String telephone, String horaires) {
         this.nom = nom;
         this.adresse = adresse;
         this.telephone = telephone;
