@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static fr.nova.novascrape.NovaResourcesLoader.loadURL;
+import static fr.nova.novascrape.NovaScrapeUtils.loadURL;
 
 public class ApplicationController implements Initializable {
     private final ToggleGroup toggleGroup;
@@ -71,7 +71,7 @@ public class ApplicationController implements Initializable {
     public void initializeLoader() {
         MFXLoader loader = new MFXLoader();
 		loader.addView(MFXLoaderBean.of("RESTAURANTS", loadURL("fxml/Restaurant.fxml")).setBeanToNodeMapper(() -> createToggle("fas-utensils", "Restaurants")).setDefaultRoot(true).get());
-		loader.addView(MFXLoaderBean.of("SALON DE COIFFURE", loadURL("fxml/SalonCoiffure.fxml")).setBeanToNodeMapper(() -> createToggle("fas-scissors", "Salon de coiffure")).get());
+		loader.addView(MFXLoaderBean.of("SALON DE COIFFURE", loadURL("fxml/HairSalon.fxml")).setBeanToNodeMapper(() -> createToggle("fas-scissors", "Salon de coiffure")).setControllerFactory(c -> new HairSalonController(stage)).get());
 		loader.addView(MFXLoaderBean.of("SUPERMARCHE", loadURL("fxml/Supermarket.fxml")).setBeanToNodeMapper(() -> createToggle("fas-basket-shopping", "Supermarchés")).setControllerFactory(c -> new SupermarketController(stage)).get());
 		loader.setOnLoadedAction(beans -> {
 			List<ToggleButton> nodes = beans.stream()

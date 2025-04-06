@@ -33,7 +33,7 @@ public class Application extends javafx.application.Application {
 
 		stage.initStyle(StageStyle.DECORATED);
         stage.setMaximized(true);
-        stage.getIcons().add(new Image(Objects.requireNonNull(NovaResourcesLoader.loadURL("images/nova-scrape-logo.png").toExternalForm())));
+        stage.getIcons().add(new Image(Objects.requireNonNull(NovaScrapeUtils.loadURL("images/nova-scrape-logo.png").toExternalForm())));
         stage.setTitle("Nova Scrape");
         stage.setScene(scene);
         stage.show();

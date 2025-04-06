@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import javafx.geometry.Insets?>
-<GridPane fx:controller="fr.nova.novascrape.controller.SupermarketController" alignment="CENTER" hgap="20.0"
-          styleClass="grid-pane" vgap="20.0" stylesheets="@../css/Supermarket.css"
+<GridPane fx:controller="fr.nova.novascrape.controller.HairSalonController" alignment="CENTER" hgap="20.0"
+          styleClass="grid-pane" vgap="20.0" stylesheets="@../css/App.css"
           xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
 >
     <columnConstraints>

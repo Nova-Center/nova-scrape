@@ -1,7 +1,7 @@
 package fr.nova.novascrape.service;
 
 import fr.nova.novascrape.model.base.Restaurant;
-import fr.nova.novascrape.model.base.SalonCoiffure;
+import fr.nova.novascrape.model.base.HairSalon;
 import fr.nova.novascrape.model.base.Supermarket;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,9 +35,8 @@ public class WebScrapingService {
         return supermarkets;
     }
 
-    //Pour récuperer les Salon de coiffure du quartier
-    public void recupererSalonsProches() {
-        List<SalonCoiffure> salons = new ArrayList<>();
+    public List<HairSalon> getHairSalons() {
+        List<HairSalon> salons = new ArrayList<>();
         String url = "https://www.treatwell.fr/salons/soins-groupe-coiffure/offre-type-local/dans-metro-nation-fr/";
 
         try {
@@ -63,13 +62,8 @@ public class WebScrapingService {
                     String lienDetail = item.getString("url");
                     String prix = "N/A";
 
-                    SalonCoiffure salon = new SalonCoiffure(nom, adresse, prix, lienDetail);
+                    HairSalon salon = new HairSalon(nom, adresse, prix, lienDetail);
                     salons.add(salon);
-                }
-
-                // Affichage des informations récupérées
-                for (SalonCoiffure salon : salons) {
-                    System.out.println(salon);
                 }
             } else {
                 System.out.println("Script JSON non trouvé.");
@@ -78,6 +72,8 @@ public class WebScrapingService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return salons;
     }
 
 

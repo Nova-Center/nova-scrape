@@ -1,21 +1,19 @@
 package fr.nova.novascrape.view;
 
-import fr.nova.novascrape.model.base.Supermarket;
+import fr.nova.novascrape.model.base.HairSalon;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.enums.ButtonType;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import static fr.nova.novascrape.NovaScrapeUtils.createSpacer;
 
-public class SupermarketCardView {
-    private final Supermarket item;
+public class HairSalonView {
+    private HairSalon hairSalon;
 
-    public SupermarketCardView(Supermarket item) {
-        this.item = item;
+    public HairSalonView(HairSalon hairSalon) {
+        this.hairSalon = hairSalon;
     }
 
     public VBox getCard() {
@@ -24,13 +22,13 @@ public class SupermarketCardView {
         card.setStyle("-fx-position-shape: flex;");
         card.setPrefSize(200, 150);
 
-        Label title = new Label(item.getNom());
+        Label title = new Label(hairSalon.getNom());
         title.getStyleClass().add("card-title");
         title.setWrapText(true);
         title.setMaxWidth(Double.MAX_VALUE);
         title.setAlignment(Pos.CENTER);
 
-        Label address = new Label(item.getAdresse());
+        Label address = new Label(hairSalon.getAdresse());
         address.setWrapText(true);
         address.getStyleClass().add("card-address");
 
