@@ -15,6 +15,14 @@ public  class Restaurant {
         this.description = description;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
     @Override
     public String toString() {
         return "Nom: " + nom + ", Adresse: " + adresse + ", Type de cuisine: " + typeCuisine + ", Lien: " + lienDetail + ", Description: " + description;

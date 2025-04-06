@@ -76,9 +76,7 @@ public class WebScrapingService {
         return salons;
     }
 
-
-    //Pour récupérer quelque restau du quartier
-    public  void recupererRestaurants() {
+    public List<Restaurant> getRestaurants() {
         List<Restaurant> restaurants = new ArrayList<>();
         String url = "https://www.lesrestos.com/restaurant/liste/paris/metro/nation";
 
@@ -95,14 +93,11 @@ public class WebScrapingService {
 
                 restaurants.add(new Restaurant(nom, adresse, typeCuisine, lienDetail, description));
             }
-
-            for (Restaurant restaurant : restaurants) {
-                System.out.println(restaurant);
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        return restaurants;
     }
 
     //Pour les infos du garage du quartier
