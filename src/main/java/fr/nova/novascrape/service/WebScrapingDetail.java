@@ -1,5 +1,9 @@
 package fr.nova.novascrape.service;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import fr.nova.novascrape.model.detail.RestaurantDetail;
 import fr.nova.novascrape.model.detail.SalonDetail;
 import fr.nova.novascrape.model.detail.SupermarketDetails;
@@ -11,6 +15,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.List;
 
 public class WebScrapingDetail {
 
@@ -106,35 +111,35 @@ public class WebScrapingDetail {
         System.out.println(salon);
     }
 
-//    //Récuperation du detail via l'url de detail (pour les supermarcge) (pas completement focntionnel)
-    public void recupererDetailSupermarche(String urlDetail) {
-        SupermarketDetails supermarche = null;
+  //Récuperation du detail via l'url de detail (pour les supermarcge) (pas completement focntionnel)
+public void recupererInfosMagasin(String url) {
+    try (final WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
+        webClient.getOptions().setCssEnabled(false);
+        webClient.getOptions().setJavaScriptEnabled(false);
 
-        try {
-            Document doc = Jsoup.connect(urlDetail).get();
+        HtmlPage page = webClient.getPage(url);
 
-            // Nom du supermarché
-            String nom = doc.select("h1").first().text().split(" - ")[0];
+        HtmlElement telElement = page.getFirstByXPath("//div[starts-with(text(), '01') or starts-with(text(), '07') or starts-with(text(), '06')]");
+        String telephone = (telElement != null && telElement.getTextContent().matches(".*\\d{10}.*"))
+                ? telElement.getTextContent().replaceAll("[^0-9]", "")  // garde que les chiffres
+                : "Téléphone non trouvé";
 
-            // Adresse
-            String adresse = doc.select("p.address").text();
-            String telephone = doc.select("a.phone").text();
-            StringBuilder horaires = new StringBuilder();
-            Elements horaireElements = doc.select("table.opening-hours tbody tr");
-            for (Element horaireElement : horaireElements) {
-                String jour = horaireElement.select("td:first-child").text();
-                String heure = horaireElement.select("td:last-child").text();
-                horaires.append(jour).append(": ").append(heure).append("\n");
-            }
+        // Horaires d'ouverture
+        List<HtmlElement> horairesElements = page.getByXPath("//section[@id='OpeningHoursBox']//div[contains(@class, 'grid-cols-2')]");
+        StringBuilder horaires = new StringBuilder();
 
-            // Création de l'objet SupermarcheDetail
-            supermarche = new SupermarketDetails(nom, adresse, telephone, horaires.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (int i = 0; i < horairesElements.size(); i += 1) {
+            String jour = horairesElements.get(i).getTextContent().trim();
+            String heure = horairesElements.get(i).getTextContent().trim();
+            horaires.append(jour).append("\n");
         }
 
-        System.out.println(supermarche);
+        SupermarketDetails market = new SupermarketDetails(telephone,horaires.toString());
+        System.out.println(market);
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
 
 }

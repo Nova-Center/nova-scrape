@@ -8,6 +8,7 @@ module fr.nova.novascrape {
     requires fr.brouillard.oss.cssfx;
     requires org.jsoup;
     requires org.json;
+    requires htmlunit;
 
     opens fr.nova.novascrape to javafx.fxml;
     exports fr.nova.novascrape;
