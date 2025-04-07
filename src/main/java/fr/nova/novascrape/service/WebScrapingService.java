@@ -101,7 +101,7 @@ public class WebScrapingService {
     }
 
     //Pour les infos du garage du quartier
-    public void extraireInfosGarage() {
+    public void getGarageQuartier () {
         try {
             Document doc = Jsoup.connect("https://www.garage-st-antoine.com/garage-saint-antoine-specialiste-bmw-mini-paris-nation-qui-sommes-nous").get();
             Elements elements = doc.select("div.textwidget");
