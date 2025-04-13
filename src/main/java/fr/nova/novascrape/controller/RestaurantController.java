@@ -1,11 +1,14 @@
 package fr.nova.novascrape.controller;
 
+import fr.nova.novascrape.interfaces.DarkTheme;
 import fr.nova.novascrape.model.base.HairSalon;
 import fr.nova.novascrape.model.base.Restaurant;
 import fr.nova.novascrape.model.detail.RestaurantDetail;
 import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
+import fr.nova.novascrape.themes.DarkMode;
 import fr.nova.novascrape.view.HairSalonView;
+import fr.nova.novascrape.view.RestaurantDetailView;
 import fr.nova.novascrape.view.RestaurantView;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
@@ -14,6 +17,7 @@ import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
 import io.github.palexdev.materialfx.enums.ScrimPriority;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,11 +34,12 @@ import java.awt.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class RestaurantController implements Initializable {
-    private WebScrapingService webScrapingService;
-    private WebScrapingDetail webscrapingDetail;
+public class RestaurantController implements Initializable, DarkTheme {
+    private final WebScrapingService webScrapingService;
+    private final WebScrapingDetail webscrapingDetail;
     private MFXGenericDialog dialogContent;
     private MFXStageDialog dialog;
 
@@ -65,6 +70,8 @@ public class RestaurantController implements Initializable {
                     Map.entry(new MFXButton("Fermer"), event -> dialog.close())
             );
 
+            dialogContent.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/fr/nova/novascrape/css/themes/Dark.css")).toExternalForm());
+
             dialogContent.setMaxSize(600, 500);
 
         });
@@ -77,39 +84,30 @@ public class RestaurantController implements Initializable {
 
     @FXML
     private void openInfo(ActionEvent event, Restaurant restaurant) {
-        MFXFontIcon infoIcon = new MFXFontIcon("fas-circle-info", 18);
-        dialogContent.setHeaderIcon(infoIcon);
-        dialogContent.setHeaderText(restaurant.getNom());
+        applyDarkTheme();
+        RestaurantDetailView view = new RestaurantDetailView(dialogContent, dialog);
+        view.showLoading(restaurant.getNom());
 
-        // TODO: Add the details of restaurants
-        String url = restaurant.getLienDetail();
-        RestaurantDetail restaurantDetails = webscrapingDetail.recupererDetailRestaurant(url);
+        Task<RestaurantDetail> loadTask = new Task<>() {
+            @Override
+            protected RestaurantDetail call() {
+                return webscrapingDetail.recupererDetailRestaurant(restaurant.getLienDetail());
+            }
+        };
 
-        VBox content = new VBox(10); //  espace entre les lignes
-        content.setStyle("-fx-padding: 10;"); // marge interieur
+        loadTask.setOnSucceeded(e -> {
+            RestaurantDetail details = loadTask.getValue();
+            view.showDetails(restaurant, details);
+        });
 
+        loadTask.setOnFailed(e -> {
+            view.showError("Impossible de charger les informations.");
+            loadTask.getException().printStackTrace();
+        });
 
-        // Ajouter les lignes avec titres + contenu
-        content.getChildren().add(createLigne("Nom", restaurantDetails.getNom()));
-        content.getChildren().add(createLigne("Adresse", restaurantDetails.getAdresse()));
-        content.getChildren().add(createLigne("Téléphone", restaurantDetails.getTelephone()));
-        content.getChildren().add(createLigne("Fermeture", restaurantDetails.getFermetureHebdo()));
-        content.getChildren().add(createLigne("Métro", restaurantDetails.getMetro()));
-        content.getChildren().add(createLigne("Type", restaurantDetails.getGenreEtablissement()));
-        content.getChildren().add(createLigne("Services", restaurantDetails.getServices()));
-        content.getChildren().add(createLigne("Prix Menu", restaurantDetails.getPrixMenu()));
-        content.getChildren().add(createLigne("Cuisine", restaurantDetails.getTypeCuisine()));
-        content.getChildren().add(createLigne("Guide", restaurantDetails.getGuide()));
-
-        javafx.scene.control.ScrollPane scrollPane = new ScrollPane(content);
-        scrollPane.setFitToWidth(true); // pour que ça ne dépasse pas en largeur
-        scrollPane.setPrefViewportHeight(200); // hauteur visible avant scroll
-        scrollPane.setStyle("-fx-background-color: transparent;");
-
-        dialogContent.setContent(scrollPane); // on remplace setContentText par setContent
-        convertDialogTo("mfx-info-dialog");
-        dialog.showDialog();
+        new Thread(loadTask).start();
     }
+
 
     private HBox createLigne(String titre, String valeur) {
         Label labelTitre = new Label(titre + " : ");
@@ -121,7 +119,6 @@ public class RestaurantController implements Initializable {
         HBox ligne = new HBox(5, labelTitre, labelValeur); // 5 = espace entre les deux
         return ligne;
     }
-
 
 
     private void displayRestaurants() {
@@ -137,12 +134,12 @@ public class RestaurantController implements Initializable {
         }
     }
 
-    private void convertDialogTo(String styleClass) {
-        dialogContent.getStyleClass().removeIf(
-                s -> s.equals("mfx-info-dialog") || s.equals("mfx-warn-dialog") || s.equals("mfx-error-dialog")
-        );
-
-        if (styleClass != null)
-            dialogContent.getStyleClass().add(styleClass);
+    @Override
+    public void applyDarkTheme() {
+        if (DarkMode.getInstance().isDarkModeEnabled() && !dialogContent.getStyleClass().contains("mfx-dialog-custom")) {
+            dialogContent.getStyleClass().add("mfx-dialog-custom");
+        } else {
+            dialogContent.getStyleClass().remove("mfx-dialog-custom");
+        }
     }
 }

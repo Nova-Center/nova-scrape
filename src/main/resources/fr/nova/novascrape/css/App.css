@@ -23,107 +23,104 @@
  * Root
 **************************************************/
 .rootPane {
-	-fx-background-color: white;
-	-fx-background-radius: 10;
-	-fx-border-color: #ebebeb;
-	-fx-border-radius: 10;
+    -fx-background-color: white;
 }
 
 /**************************************************
  * Window Header
 **************************************************/
 .rootPane .close-icon {
-	-mfx-color: -nova-red;
-	-fx-opacity: 0.5;
+    -mfx-color: -nova-red;
+    -fx-opacity: 0.5;
 }
 
 .rootPane .close-icon:hover {
-	-fx-opacity: 1.0;
+    -fx-opacity: 1.0;
 }
 
 .rootPane .minimize-icon {
-	-mfx-color: #ffbf37;
-	-fx-opacity: 0.5;
+    -mfx-color: #ffbf37;
+    -fx-opacity: 0.5;
 }
 
 .rootPane .minimize-icon:hover {
-	-fx-opacity: 1.0;
+    -fx-opacity: 1.0;
 }
 
 .rootPane .always-on-top-icon {
-	-mfx-color: -nova-purple;
-	-fx-opacity: 0.5;
+    -mfx-color: -nova-purple;
+    -fx-opacity: 0.5;
 }
 
 .rootPane .always-on-top-icon:hover {
-	-fx-opacity: 1.0;
+    -fx-opacity: 1.0;
 }
 
 /**************************************************
  * Sidebar
 **************************************************/
 .rootPane .sidebar {
-	-fx-background-color: -nova-beige;
-	-fx-background-insets: -1 -5 -1 -1;
+    -fx-background-color: -nova-beige;
+    -fx-background-insets: -1 -5 -1 -1;
 }
 
 .rootPane .sidebar .header {
-	-fx-font-family: 'Roboto Bold';
-	-fx-font-size: 24;
-	-fx-text-fill: -nova-text;
+    -fx-font-family: 'Roboto Bold';
+    -fx-font-size: 24;
+    -fx-text-fill: -nova-text;
 }
 
 .rootPane .sidebar .header .mfx-font-icon {
-	-mfx-color: black;
+    -mfx-color: black;
 }
 
 .rootPane .sidebar .mfx-scroll-pane {
-	-fx-background-color: transparent;
+    -fx-background-color: transparent;
 
-	-track-color: rgba(255, 255, 255, 0.3);
-	-thumb-color: white;
-	-thumb-hover-color: white;
+    -track-color: rgba(255, 255, 255, 0.3);
+    -thumb-color: white;
+    -thumb-hover-color: white;
 }
 
 .rootPane .sidebar .menu-label {
-	-fx-font-family: 'Open Sans Bold';
-	-fx-font-size: 14;
-	-fx-text-fill: -nova-text;
+    -fx-font-family: 'Open Sans Bold';
+    -fx-font-size: 14;
+    -fx-text-fill: -nova-text;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node {
-	-fx-background-color: transparent;
-	-fx-background-radius: 0;
-	-fx-border-color: transparent;
-	-fx-border-radius: 0;
-	-fx-pref-height: 40;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-radius: 0;
+    -fx-pref-height: 40;
 
-	-fx-font-family: 'Open Sans SemiBold';
-	-fx-font-size: 13;
-	-fx-text-fill: -nova-text;
+    -fx-font-family: 'Open Sans SemiBold';
+    -fx-font-size: 13;
+    -fx-text-fill: -nova-text;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node .mfx-ripple-generator {
-	-mfx-paused: true;
+    -mfx-paused: true;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node .mfx-icon-wrapper .mfx-font-icon {
-	-mfx-color: -nova-text;
+    -mfx-color: -nova-text;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected {
-	-fx-background-color: white;
-	-fx-background-radius: 5;
-	-fx-text-fill: -nova-blue;
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-text-fill: -nova-blue;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected .selection-rectangle {
-	-fx-stroke: transparent;
-	-fx-fill: -nova-blue;
+    -fx-stroke: transparent;
+    -fx-fill: -nova-blue;
 }
 
 .rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected .mfx-icon-wrapper .mfx-font-icon {
-	-mfx-color: -nova-blue;
+    -mfx-color: -nova-blue;
 }
 
 .grid-pane {
@@ -153,4 +150,8 @@
 .card-address {
     -fx-font-size: 14;
     -fx-text-fill: -nova-text-me;
+}
+
+.dialog-custom #alwaysOnTop {
+    visibility: hidden;
 }

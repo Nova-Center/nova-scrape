@@ -8,6 +8,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXCircleToggleNode?>
+<?import io.github.palexdev.mfxresources.fonts.MFXFontIcon?>
+
 <AnchorPane fx:id="rootPane" prefHeight="720.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/App.css"
             xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.nova.novascrape.controller.ApplicationController">
@@ -39,6 +42,11 @@
             <VBox fx:id="navbar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0"
                   styleClass="navbar"/>
         </MFXScrollPane>
+        <MFXCircleToggleNode fx:id="darkMode" id="darkMode" textPosition="TOP" size="24.0">
+            <graphic>
+                <MFXFontIcon description="fas-sun" size="20.0" fx:id="darkModeIcon"/>
+            </graphic>
+        </MFXCircleToggleNode>
     </VBox>
     <StackPane fx:id="contentPane" layoutX="252.0" layoutY="52.0" prefHeight="150.0" prefWidth="200.0"
                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="10.0"

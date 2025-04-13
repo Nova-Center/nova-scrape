@@ -1,25 +1,24 @@
 package fr.nova.novascrape.controller;
 
+import fr.nova.novascrape.interfaces.DarkTheme;
 import fr.nova.novascrape.model.base.Supermarket;
 import fr.nova.novascrape.model.detail.SupermarketDetails;
 import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
+import fr.nova.novascrape.themes.DarkMode;
 import fr.nova.novascrape.view.SupermarketCardView;
+import fr.nova.novascrape.view.SupermarketDialogView;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
 import io.github.palexdev.materialfx.enums.ScrimPriority;
-import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,11 +26,12 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class SupermarketController implements Initializable {
-    private WebScrapingService webScrapingService;
-    private WebScrapingDetail webscrapingDetail;
+public class SupermarketController implements Initializable, DarkTheme {
+    private final WebScrapingService webScrapingService;
+    private final WebScrapingDetail webscrapingDetail;
     private MFXGenericDialog dialogContent;
     private MFXStageDialog dialog;
 
@@ -62,6 +62,8 @@ public class SupermarketController implements Initializable {
                     Map.entry(new MFXButton("Fermer"), event -> dialog.close())
             );
 
+            dialogContent.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/fr/nova/novascrape/css/themes/Dark.css")).toExternalForm());
+
             dialogContent.setMaxSize(400, 200);
         });
     }
@@ -73,45 +75,30 @@ public class SupermarketController implements Initializable {
 
     @FXML
     private void openInfo(ActionEvent event, Supermarket supermarket) {
-        MFXFontIcon infoIcon = new MFXFontIcon("fas-circle-info", 18);
-        dialogContent.setHeaderIcon(infoIcon);
-        dialogContent.setHeaderText(supermarket.getNom());
+        applyDarkTheme();
 
-        // TODO: Add the details of supermarket
-        String url = supermarket.getDetailsUrl();
-        SupermarketDetails market = this.webscrapingDetail.recupererInfosMagasin(url);
+        SupermarketDialogView view = new SupermarketDialogView(dialogContent, dialog);
+        view.showLoading(supermarket.getNom());
 
-        VBox contentBox = new VBox(10); // vertical spacing entre les lignes
-        contentBox.setPadding(new Insets(10));
+        Task<SupermarketDetails> loadTask = new Task<>() {
+            @Override
+            protected SupermarketDetails call() {
+                return webscrapingDetail.getSupermarketInfo(supermarket);
+            }
+        };
 
-        contentBox.getChildren().addAll(
-            createLigne("Nom", supermarket.getNom()),
-            createLigne("Adresse", supermarket.getAdresse()),
-            createLigne("Tel", market.getTelephone()),
-            createLigne("Horaires", market.getHoraires())
-        );
+        loadTask.setOnSucceeded(e -> {
+            SupermarketDetails details = loadTask.getValue();
+            view.showDetails(supermarket, details);
+        });
 
-        ScrollPane scrollPane = new ScrollPane(contentBox);
-        scrollPane.setFitToWidth(true); // pour que ça ne dépasse pas en largeur
-        scrollPane.setPrefViewportHeight(200); // hauteur visible avant scroll
-        scrollPane.setStyle("-fx-background-color: transparent;");
+        loadTask.setOnFailed(e -> {
+            view.showError("Erreur", "Impossible de charger les informations.");
+            loadTask.getException().printStackTrace();
+        });
 
-        dialogContent.setContent(scrollPane); // on remplace setContentText par setContent
-        convertDialogTo("mfx-info-dialog");
-        dialog.showDialog();
+        new Thread(loadTask).start();
     }
-
-    private HBox createLigne(String titre, String valeur) {
-        Label labelTitre = new Label(titre + " : ");
-        labelTitre.setStyle("-fx-font-weight: bold; -fx-text-fill: #333;");
-
-        Label labelValeur = new Label(valeur);
-        labelValeur.setStyle("-fx-text-fill: #555;");
-
-        HBox ligne = new HBox(5, labelTitre, labelValeur); // 5 = espace entre les deux
-        return ligne;
-    }
-
 
     private void displaySupermarket() {
         List<Supermarket> supermarkets = webScrapingService.getSupermarkets();
@@ -126,12 +113,12 @@ public class SupermarketController implements Initializable {
         }
     }
 
-    private void convertDialogTo(String styleClass) {
-        dialogContent.getStyleClass().removeIf(
-                s -> s.equals("mfx-info-dialog") || s.equals("mfx-warn-dialog") || s.equals("mfx-error-dialog")
-        );
-
-        if (styleClass != null)
-            dialogContent.getStyleClass().add(styleClass);
+    @Override
+    public void applyDarkTheme() {
+        if (DarkMode.getInstance().isDarkModeEnabled() && !dialogContent.getStyleClass().contains("mfx-dialog-custom")) {
+            dialogContent.getStyleClass().add("mfx-dialog-custom");
+        } else {
+            dialogContent.getStyleClass().remove("mfx-dialog-custom");
+        }
     }
 }

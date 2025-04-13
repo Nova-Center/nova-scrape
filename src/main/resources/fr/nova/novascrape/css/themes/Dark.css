@@ -1,0 +1,61 @@
+@import '../Colors.css';
+
+.rootPane {
+    -fx-background-color: -nova-soft-black !important;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected {
+    -fx-background-color: -nova-soft-black !important;
+}
+
+.grid-pane {
+    -fx-text-fill: white !important;
+}
+
+.grid-scroll-pane {
+    -fx-background-color: -nova-soft-black !important;
+}
+
+.card {
+    -fx-border-color: white !important;
+}
+
+.card-title {
+    -fx-text-fill: white !important;
+}
+
+.card-address {
+    -fx-text-fill: white !important;
+}
+
+.mfx-dialog-custom {
+    -fx-background-color: -nova-soft-black !important;
+    -fx-text-fill: white !important;
+}
+
+.mfx-dialog-custom .header-label {
+    -fx-text-fill: white !important;
+}
+
+.mfx-dialog-custom .header-label .text {
+    -fx-text-fill: white !important;
+}
+
+.mfx-dialog-custom .content {
+    -fx-text-fill: white;
+    -fx-background-color: -nova-soft-black !important;
+}
+
+.mfx-dialog-custom .content-container {
+    -fx-background-color: -nova-soft-black !important;
+}
+
+.scroll-pane .mfx-scroll-pane .dialog-details {
+    -fx-background-color: -nova-soft-black !important;
+    -fx-text-fill: white !important;
+}
+
+.scroll-pane .mfx-scroll-pane .dialog-details {
+    -fx-background-color: -nova-soft-black !important;
+    -fx-text-fill: white !important;
+}

@@ -4,6 +4,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import fr.nova.novascrape.model.base.Supermarket;
 import fr.nova.novascrape.model.detail.RestaurantDetail;
 import fr.nova.novascrape.model.detail.SalonDetail;
 import fr.nova.novascrape.model.detail.SupermarketDetails;
@@ -51,7 +52,6 @@ public class WebScrapingDetail {
 
         return restaurant;
     }
-
 
 
     //Récuperation du detail via l'url de detail (pour les salon)
@@ -112,37 +112,38 @@ public class WebScrapingDetail {
         return salon;
     }
 
-  //Récuperation du detail via l'url de detail (pour les supermarcge) (pas completement focntionnel)
-public SupermarketDetails recupererInfosMagasin(String url) {
-    SupermarketDetails market = null;
-    try (final WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
-        webClient.getOptions().setCssEnabled(false);
-        webClient.getOptions().setJavaScriptEnabled(false);
+    //Récuperation du detail via l'url de detail (pour les supermarcge) (pas completement focntionnel)
+    public SupermarketDetails getSupermarketInfo(Supermarket supermarket) {
+        String url = supermarket.getDetailsUrl();
+        SupermarketDetails market = null;
+        try (final WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
+            webClient.getOptions().setCssEnabled(false);
+            webClient.getOptions().setJavaScriptEnabled(false);
 
-        HtmlPage page = webClient.getPage(url);
+            HtmlPage page = webClient.getPage(url);
 
-        HtmlElement telElement = page.getFirstByXPath("//div[starts-with(text(), '01') or starts-with(text(), '07') or starts-with(text(), '06')]");
-        String telephone = (telElement != null && telElement.getTextContent().matches(".*\\d{10}.*"))
-                ? telElement.getTextContent().replaceAll("[^0-9]", "")  // garde que les chiffres
-                : "Téléphone non trouvé";
+            HtmlElement telElement = page.getFirstByXPath("//div[starts-with(text(), '01') or starts-with(text(), '07') or starts-with(text(), '06')]");
+            String telephone = (telElement != null && telElement.getTextContent().matches(".*\\d{10}.*"))
+                    ? telElement.getTextContent().replaceAll("[^0-9]", "")  // garde que les chiffres
+                    : "Téléphone non trouvé";
 
-        // Horaires d'ouverture
-        List<HtmlElement> horairesElements = page.getByXPath("//section[@id='OpeningHoursBox']//div[contains(@class, 'grid-cols-2')]");
-        StringBuilder horaires = new StringBuilder();
+            // Horaires d'ouverture
+            List<HtmlElement> horairesElements = page.getByXPath("//section[@id='OpeningHoursBox']//div[contains(@class, 'grid-cols-2')]");
+            StringBuilder horaires = new StringBuilder();
 
-        for (int i = 0; i < horairesElements.size(); i += 1) {
-            String jour = horairesElements.get(i).getTextContent().trim();
-            String heure = horairesElements.get(i).getTextContent().trim();
-            horaires.append(jour).append("\n");
+            for (int i = 0; i < horairesElements.size(); i += 1) {
+                String jour = horairesElements.get(i).getTextContent().trim();
+                String heure = horairesElements.get(i).getTextContent().trim();
+                horaires.append(jour).append("\n");
+            }
+
+            market = new SupermarketDetails(supermarket.getNom(), supermarket.getAdresse(), telephone, horaires.toString());
+            return market;
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        market = new SupermarketDetails(telephone,horaires.toString());
         return market;
-
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-    return market;
-}
 
 }

@@ -17,7 +17,7 @@
         <RowConstraints vgrow="ALWAYS"/>
     </rowConstraints>
 
-    <MFXScrollPane fitToWidth="true" fitToHeight="true" GridPane.rowIndex="1" GridPane.columnIndex="0"
+    <MFXScrollPane styleClass="grid-scroll-pane" fitToWidth="true" fitToHeight="true" GridPane.rowIndex="1" GridPane.columnIndex="0"
                    hbarPolicy="NEVER">
         <padding>
             <Insets right="20" left="20"/>

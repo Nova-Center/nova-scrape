@@ -19,19 +19,19 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         CSSFX.start();
 
-		UserAgentBuilder.builder()
-			.themes(JavaFXThemes.MODENA)
-			.themes(MaterialFXStylesheets.forAssemble(true))
-			.setDeploy(true)
-			.setResolveAssets(true)
-			.build()
-			.setGlobal();
+        UserAgentBuilder.builder()
+                .themes(JavaFXThemes.MODENA)
+                .themes(MaterialFXStylesheets.forAssemble(true))
+                .setDeploy(true)
+                .setResolveAssets(true)
+                .build()
+                .setGlobal();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/Application.fxml"));
         fxmlLoader.setControllerFactory(__ -> new ApplicationController(stage));
         Scene scene = new Scene(fxmlLoader.load());
 
-		stage.initStyle(StageStyle.DECORATED);
+        stage.initStyle(StageStyle.DECORATED);
         stage.setMaximized(true);
         stage.getIcons().add(new Image(Objects.requireNonNull(NovaScrapeUtils.loadURL("images/nova-scrape-logo.png").toExternalForm())));
         stage.setTitle("Nova Scrape");
