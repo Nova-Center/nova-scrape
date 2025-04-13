@@ -2,7 +2,7 @@ package fr.nova.novascrape.controller;
 
 import fr.nova.novascrape.interfaces.DarkTheme;
 import fr.nova.novascrape.model.base.HairSalon;
-import fr.nova.novascrape.model.detail.SalonDetail;
+import fr.nova.novascrape.model.detail.HairSalonDetails;
 import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
 import fr.nova.novascrape.themes.DarkMode;
@@ -81,14 +81,14 @@ public class HairSalonController implements Initializable, DarkTheme {
 
         applyDarkTheme();
 
-        Task<SalonDetail> task = new Task<>() {
+        Task<HairSalonDetails> task = new Task<>() {
             @Override
-            protected SalonDetail call() {
+            protected HairSalonDetails call() {
                 return webscrapingDetail.recupererDetailSalon(hairSalon.getLienDetail());
             }
         };
 
-        task.setOnSucceeded(e -> view.showDetails(hairSalon, task.getValue()));
+        task.setOnSucceeded(e -> view.showDetails(task.getValue()));
         task.setOnFailed(e -> {
             view.showError("Impossible de charger les informations.");
             task.getException().printStackTrace();

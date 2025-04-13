@@ -1,9 +1,6 @@
 package fr.nova.novascrape.view;
 
-import fr.nova.novascrape.model.base.HairSalon;
-import fr.nova.novascrape.model.base.Restaurant;
-import fr.nova.novascrape.model.detail.RestaurantDetail;
-import fr.nova.novascrape.model.detail.SalonDetail;
+import fr.nova.novascrape.model.detail.HairSalonDetails;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
@@ -35,7 +32,7 @@ public class HairSalonDetailView {
         dialog.showDialog();
     }
 
-    public void showDetails(HairSalon hairSalon, SalonDetail detail) {
+    public void showDetails(HairSalonDetails detail) {
         VBox content = new VBox(10);
         content.setPadding(new Insets(10));
 

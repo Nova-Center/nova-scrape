@@ -1,6 +1,6 @@
 package fr.nova.novascrape.model.detail;
 
-public class RestaurantDetail {
+public class RestaurantDetails {
     String nom;
     String adresse;
     String metro;
@@ -13,7 +13,7 @@ public class RestaurantDetail {
     String services;
     String commentaires;
 
-    public  RestaurantDetail(String nom, String adresse, String metro, String telephone, String typeCuisine, String genreEtablissement, String fermetureHebdo, String prixMenu,String guide, String services, String commentaires) {
+    public RestaurantDetails(String nom, String adresse, String metro, String telephone, String typeCuisine, String genreEtablissement, String fermetureHebdo, String prixMenu, String guide, String services, String commentaires) {
         this.nom = nom;
         this.adresse = adresse;
         this.metro = metro;

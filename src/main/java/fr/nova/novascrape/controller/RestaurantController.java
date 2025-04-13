@@ -1,13 +1,11 @@
 package fr.nova.novascrape.controller;
 
 import fr.nova.novascrape.interfaces.DarkTheme;
-import fr.nova.novascrape.model.base.HairSalon;
 import fr.nova.novascrape.model.base.Restaurant;
-import fr.nova.novascrape.model.detail.RestaurantDetail;
+import fr.nova.novascrape.model.detail.RestaurantDetails;
 import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
 import fr.nova.novascrape.themes.DarkMode;
-import fr.nova.novascrape.view.HairSalonView;
 import fr.nova.novascrape.view.RestaurantDetailView;
 import fr.nova.novascrape.view.RestaurantView;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -15,13 +13,11 @@ import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
 import io.github.palexdev.materialfx.enums.ScrimPriority;
-import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,7 +26,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
 
-import java.awt.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -88,15 +83,15 @@ public class RestaurantController implements Initializable, DarkTheme {
         RestaurantDetailView view = new RestaurantDetailView(dialogContent, dialog);
         view.showLoading(restaurant.getNom());
 
-        Task<RestaurantDetail> loadTask = new Task<>() {
+        Task<RestaurantDetails> loadTask = new Task<>() {
             @Override
-            protected RestaurantDetail call() {
+            protected RestaurantDetails call() {
                 return webscrapingDetail.recupererDetailRestaurant(restaurant.getLienDetail());
             }
         };
 
         loadTask.setOnSucceeded(e -> {
-            RestaurantDetail details = loadTask.getValue();
+            RestaurantDetails details = loadTask.getValue();
             view.showDetails(restaurant, details);
         });
 

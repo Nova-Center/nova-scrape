@@ -5,8 +5,8 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import fr.nova.novascrape.model.base.Supermarket;
-import fr.nova.novascrape.model.detail.RestaurantDetail;
-import fr.nova.novascrape.model.detail.SalonDetail;
+import fr.nova.novascrape.model.detail.RestaurantDetails;
+import fr.nova.novascrape.model.detail.HairSalonDetails;
 import fr.nova.novascrape.model.detail.SupermarketDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,8 +21,8 @@ import java.util.List;
 public class WebScrapingDetail {
 
     //Récuperation du detail via l'url de detail (pour les restaurants)
-    public RestaurantDetail recupererDetailRestaurant(String urlDetail) {
-        RestaurantDetail restaurant = null;
+    public RestaurantDetails recupererDetailRestaurant(String urlDetail) {
+        RestaurantDetails restaurant = null;
 
         try {
             Document doc = Jsoup.connect(urlDetail).get();
@@ -44,7 +44,7 @@ public class WebScrapingDetail {
             }
 
             String commentaires = doc.select("div.commentaire.article").text();
-            restaurant = new RestaurantDetail(nom, adresse, metro, telephone, typeCuisine, genreEtablissement, fermetureHebdo, prixMenu, guides, services.toString(), commentaires);
+            restaurant = new RestaurantDetails(nom, adresse, metro, telephone, typeCuisine, genreEtablissement, fermetureHebdo, prixMenu, guides, services.toString(), commentaires);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,8 +55,8 @@ public class WebScrapingDetail {
 
 
     //Récuperation du detail via l'url de detail (pour les salon)
-    public SalonDetail recupererDetailSalon(String urlDetail) {
-        SalonDetail salon = null;
+    public HairSalonDetails recupererDetailSalon(String urlDetail) {
+        HairSalonDetails salon = null;
 
         try {
             Document doc = Jsoup.connect(urlDetail).get();
@@ -103,7 +103,7 @@ public class WebScrapingDetail {
                 }
             }
 
-            salon = new SalonDetail(nom, adresse, horaires.toString(), tarifs.toString());
+            salon = new HairSalonDetails(nom, adresse, horaires.toString(), tarifs.toString());
 
         } catch (IOException e) {
             e.printStackTrace();

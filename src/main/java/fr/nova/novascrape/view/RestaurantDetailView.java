@@ -1,7 +1,7 @@
 package fr.nova.novascrape.view;
 
 import fr.nova.novascrape.model.base.Restaurant;
-import fr.nova.novascrape.model.detail.RestaurantDetail;
+import fr.nova.novascrape.model.detail.RestaurantDetails;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
@@ -33,7 +33,7 @@ public class RestaurantDetailView {
         dialog.showDialog();
     }
 
-    public void showDetails(Restaurant restaurant, RestaurantDetail detail) {
+    public void showDetails(Restaurant restaurant, RestaurantDetails detail) {
         VBox content = new VBox(10);
         content.setPadding(new Insets(10));
 
