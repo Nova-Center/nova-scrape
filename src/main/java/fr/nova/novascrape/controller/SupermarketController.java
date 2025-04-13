@@ -2,7 +2,7 @@ package fr.nova.novascrape.controller;
 
 import fr.nova.novascrape.interfaces.DarkTheme;
 import fr.nova.novascrape.model.base.Supermarket;
-import fr.nova.novascrape.model.detail.SupermarketDetails;
+import fr.nova.novascrape.model.details.SupermarketDetails;
 import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
 import fr.nova.novascrape.themes.DarkMode;

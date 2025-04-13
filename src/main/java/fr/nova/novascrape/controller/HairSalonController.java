@@ -2,7 +2,7 @@ package fr.nova.novascrape.controller;
 
 import fr.nova.novascrape.interfaces.DarkTheme;
 import fr.nova.novascrape.model.base.HairSalon;
-import fr.nova.novascrape.model.detail.HairSalonDetails;
+import fr.nova.novascrape.model.details.HairSalonDetails;
 import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
 import fr.nova.novascrape.themes.DarkMode;

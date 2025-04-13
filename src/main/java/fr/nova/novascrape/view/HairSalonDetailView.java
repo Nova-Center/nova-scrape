@@ -1,6 +1,6 @@
 package fr.nova.novascrape.view;
 
-import fr.nova.novascrape.model.detail.HairSalonDetails;
+import fr.nova.novascrape.model.details.HairSalonDetails;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;

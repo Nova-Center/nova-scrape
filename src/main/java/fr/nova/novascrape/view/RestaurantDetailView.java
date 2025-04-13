@@ -1,7 +1,7 @@
 package fr.nova.novascrape.view;
 
 import fr.nova.novascrape.model.base.Restaurant;
-import fr.nova.novascrape.model.detail.RestaurantDetails;
+import fr.nova.novascrape.model.details.RestaurantDetails;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;

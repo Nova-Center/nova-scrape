@@ -2,7 +2,7 @@ package fr.nova.novascrape.controller;
 
 import fr.nova.novascrape.interfaces.DarkTheme;
 import fr.nova.novascrape.model.base.Restaurant;
-import fr.nova.novascrape.model.detail.RestaurantDetails;
+import fr.nova.novascrape.model.details.RestaurantDetails;
 import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
 import fr.nova.novascrape.themes.DarkMode;

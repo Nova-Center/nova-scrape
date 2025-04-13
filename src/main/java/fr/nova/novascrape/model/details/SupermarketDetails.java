@@ -1,4 +1,4 @@
-package fr.nova.novascrape.model.detail;
+package fr.nova.novascrape.model.details;
 
 public class SupermarketDetails {
     String telephone;
