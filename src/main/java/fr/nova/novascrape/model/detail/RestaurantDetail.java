@@ -27,6 +27,17 @@ public class RestaurantDetail {
         this.commentaires = commentaires;
     }
 
+    public String getNom() {return nom;}
+    public String getAdresse() {return adresse;}
+    public String getMetro() {return metro;}
+    public String getTelephone() {return telephone;}
+    public String getTypeCuisine() {return typeCuisine;}
+    public String getGenreEtablissement() {return genreEtablissement;}
+    public String getFermetureHebdo() {return fermetureHebdo;}
+    public String getPrixMenu() {return prixMenu;}
+    public String getGuide() {return guide;}
+    public String getServices() {return services;}
+
     @Override
     public String toString() {
         return "Restaurant : " + nom + "\n" +

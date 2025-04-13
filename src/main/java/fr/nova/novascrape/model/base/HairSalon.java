@@ -16,10 +16,11 @@ public class HairSalon {
     public String getNom() {
         return nom;
     }
-
     public String getAdresse() {
         return adresse;
     }
+    public String getPrixServices() {return prixServices;}
+    public String getLienDetail() {return lienDetail;}
 
     @Override
     public String toString() {

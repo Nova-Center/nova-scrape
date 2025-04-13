@@ -20,7 +20,7 @@ import java.util.List;
 public class WebScrapingDetail {
 
     //Récuperation du detail via l'url de detail (pour les restaurants)
-    public void recupererDetailRestaurant(String urlDetail) {
+    public RestaurantDetail recupererDetailRestaurant(String urlDetail) {
         RestaurantDetail restaurant = null;
 
         try {
@@ -48,13 +48,14 @@ public class WebScrapingDetail {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(restaurant);
+
+        return restaurant;
     }
 
 
 
     //Récuperation du detail via l'url de detail (pour les salon)
-    public void recupererDetailSalon(String urlDetail) {
+    public SalonDetail recupererDetailSalon(String urlDetail) {
         SalonDetail salon = null;
 
         try {
@@ -108,11 +109,12 @@ public class WebScrapingDetail {
             e.printStackTrace();
         }
 
-        System.out.println(salon);
+        return salon;
     }
 
   //Récuperation du detail via l'url de detail (pour les supermarcge) (pas completement focntionnel)
-public void recupererInfosMagasin(String url) {
+public SupermarketDetails recupererInfosMagasin(String url) {
+    SupermarketDetails market = null;
     try (final WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
         webClient.getOptions().setCssEnabled(false);
         webClient.getOptions().setJavaScriptEnabled(false);
@@ -134,12 +136,13 @@ public void recupererInfosMagasin(String url) {
             horaires.append(jour).append("\n");
         }
 
-        SupermarketDetails market = new SupermarketDetails(telephone,horaires.toString());
-        System.out.println(market);
+        market = new SupermarketDetails(telephone,horaires.toString());
+        return market;
 
     } catch (Exception e) {
         e.printStackTrace();
     }
+    return market;
 }
 
 }

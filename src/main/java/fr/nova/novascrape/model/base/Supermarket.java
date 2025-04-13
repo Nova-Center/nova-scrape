@@ -14,8 +14,8 @@ public  class Supermarket {
     public String getNom() {
         return nom;
     }
-
     public String getAdresse() {
         return adresse;
     }
+    public String getDetailsUrl() {return detailsUrl;}
 }

@@ -8,6 +8,8 @@ public class SupermarketDetails {
         this.telephone = telephone;
         this.horaires = horaires;
     }
+    public String getTelephone() {return telephone;}
+    public String getHoraires() {return horaires;}
 
     @Override
     public String toString() {

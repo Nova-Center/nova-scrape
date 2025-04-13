@@ -1,6 +1,8 @@
 package fr.nova.novascrape.controller;
 
 import fr.nova.novascrape.model.base.Supermarket;
+import fr.nova.novascrape.model.detail.SupermarketDetails;
+import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
 import fr.nova.novascrape.view.SupermarketCardView;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -13,7 +15,11 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class SupermarketController implements Initializable {
     private WebScrapingService webScrapingService;
-
+    private WebScrapingDetail webscrapingDetail;
     private MFXGenericDialog dialogContent;
     private MFXStageDialog dialog;
 
@@ -34,6 +40,7 @@ public class SupermarketController implements Initializable {
 
     public SupermarketController(Stage stage) {
         this.webScrapingService = new WebScrapingService();
+        this.webscrapingDetail = new WebScrapingDetail();
 
         Platform.runLater(() -> {
             this.dialogContent = MFXGenericDialogBuilder.build()
@@ -71,10 +78,40 @@ public class SupermarketController implements Initializable {
         dialogContent.setHeaderText(supermarket.getNom());
 
         // TODO: Add the details of supermarket
-        dialogContent.setContentText(supermarket.getAdresse());
+        String url = supermarket.getDetailsUrl();
+        SupermarketDetails market = this.webscrapingDetail.recupererInfosMagasin(url);
+
+        VBox contentBox = new VBox(10); // vertical spacing entre les lignes
+        contentBox.setPadding(new Insets(10));
+
+        contentBox.getChildren().addAll(
+            createLigne("Nom", supermarket.getNom()),
+            createLigne("Adresse", supermarket.getAdresse()),
+            createLigne("Tel", market.getTelephone()),
+            createLigne("Horaires", market.getHoraires())
+        );
+
+        ScrollPane scrollPane = new ScrollPane(contentBox);
+        scrollPane.setFitToWidth(true); // pour que ça ne dépasse pas en largeur
+        scrollPane.setPrefViewportHeight(200); // hauteur visible avant scroll
+        scrollPane.setStyle("-fx-background-color: transparent;");
+
+        dialogContent.setContent(scrollPane); // on remplace setContentText par setContent
         convertDialogTo("mfx-info-dialog");
         dialog.showDialog();
     }
+
+    private HBox createLigne(String titre, String valeur) {
+        Label labelTitre = new Label(titre + " : ");
+        labelTitre.setStyle("-fx-font-weight: bold; -fx-text-fill: #333;");
+
+        Label labelValeur = new Label(valeur);
+        labelValeur.setStyle("-fx-text-fill: #555;");
+
+        HBox ligne = new HBox(5, labelTitre, labelValeur); // 5 = espace entre les deux
+        return ligne;
+    }
+
 
     private void displaySupermarket() {
         List<Supermarket> supermarkets = webScrapingService.getSupermarkets();

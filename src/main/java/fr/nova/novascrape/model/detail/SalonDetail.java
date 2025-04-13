@@ -13,9 +13,13 @@ public class SalonDetail {
         this.nom = nom;
         this.adresse = adresse;
         this.horaire = horaire;
-
         this.tarif = tarif;
     }
+
+    public String getNom() {return nom;}
+    public String getAdresse() {return adresse;}
+    public String getHoraire() {return horaire;}
+    public String getTarif() {return tarif;}
 
     @Override
     public String toString() {

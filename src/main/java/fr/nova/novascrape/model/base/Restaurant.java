@@ -23,6 +23,14 @@ public  class Restaurant {
         return adresse;
     }
 
+    public String getTypeCuisine() {return typeCuisine;}
+
+    public String getLienDetail() {return lienDetail;}
+
+    public String getDescription() {return description;}
+
+
+
     @Override
     public String toString() {
         return "Nom: " + nom + ", Adresse: " + adresse + ", Type de cuisine: " + typeCuisine + ", Lien: " + lienDetail + ", Description: " + description;
