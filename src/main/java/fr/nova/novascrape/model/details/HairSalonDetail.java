@@ -1,26 +1,15 @@
 package fr.nova.novascrape.model.details;
 
 
-public class HairSalonDetails {
-    String nom;
-    String adresse;
+public class HairSalonDetail extends BaseEntityDetail {
     String horaire;
     String tarif;
 
 
-    public HairSalonDetails(String nom, String adresse, String horaire, String tarif) {
-        this.nom = nom;
-        this.adresse = adresse;
+    public HairSalonDetail(String nom, String adresse, String horaire, String tarif) {
+        super(nom, adresse);
         this.horaire = horaire;
         this.tarif = tarif;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public String getAdresse() {
-        return adresse;
     }
 
     public String getHoraire() {

@@ -5,9 +5,9 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import fr.nova.novascrape.model.base.Supermarket;
-import fr.nova.novascrape.model.details.RestaurantDetails;
-import fr.nova.novascrape.model.details.HairSalonDetails;
-import fr.nova.novascrape.model.details.SupermarketDetails;
+import fr.nova.novascrape.model.details.RestaurantDetail;
+import fr.nova.novascrape.model.details.HairSalonDetail;
+import fr.nova.novascrape.model.details.SupermarketDetail;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -21,8 +21,8 @@ import java.util.List;
 public class WebScrapingDetail {
 
     //Récuperation du detail via l'url de detail (pour les restaurants)
-    public RestaurantDetails recupererDetailRestaurant(String urlDetail) {
-        RestaurantDetails restaurant = null;
+    public RestaurantDetail getRestaurantDetail(String urlDetail) {
+        RestaurantDetail restaurant = null;
 
         try {
             Document doc = Jsoup.connect(urlDetail).get();
@@ -44,7 +44,7 @@ public class WebScrapingDetail {
             }
 
             String commentaires = doc.select("div.commentaire.article").text();
-            restaurant = new RestaurantDetails(nom, adresse, metro, telephone, typeCuisine, genreEtablissement, fermetureHebdo, prixMenu, guides, services.toString(), commentaires);
+            restaurant = new RestaurantDetail(nom, adresse, metro, telephone, typeCuisine, genreEtablissement, fermetureHebdo, prixMenu, guides, services.toString(), commentaires);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,8 +55,8 @@ public class WebScrapingDetail {
 
 
     //Récuperation du detail via l'url de detail (pour les salon)
-    public HairSalonDetails recupererDetailSalon(String urlDetail) {
-        HairSalonDetails salon = null;
+    public HairSalonDetail getHairSalonDetail(String urlDetail) {
+        HairSalonDetail salon = null;
 
         try {
             Document doc = Jsoup.connect(urlDetail).get();
@@ -103,7 +103,7 @@ public class WebScrapingDetail {
                 }
             }
 
-            salon = new HairSalonDetails(nom, adresse, horaires.toString(), tarifs.toString());
+            salon = new HairSalonDetail(nom, adresse, horaires.toString(), tarifs.toString());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,9 +113,9 @@ public class WebScrapingDetail {
     }
 
     //Récuperation du detail via l'url de detail (pour les supermarcge) (pas completement focntionnel)
-    public SupermarketDetails getSupermarketInfo(Supermarket supermarket) {
+    public SupermarketDetail getSupermarketDetail(Supermarket supermarket) {
         String url = supermarket.getDetailsUrl();
-        SupermarketDetails market = null;
+        SupermarketDetail market = null;
         try (final WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
             webClient.getOptions().setCssEnabled(false);
             webClient.getOptions().setJavaScriptEnabled(false);
@@ -137,7 +137,7 @@ public class WebScrapingDetail {
                 horaires.append(jour).append("\n");
             }
 
-            market = new SupermarketDetails(supermarket.getNom(), supermarket.getAdresse(), telephone, horaires.toString());
+            market = new SupermarketDetail(supermarket.getNom(), supermarket.getAddress(), telephone, horaires.toString());
             return market;
 
         } catch (Exception e) {

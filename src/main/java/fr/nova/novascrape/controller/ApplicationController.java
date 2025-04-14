@@ -3,7 +3,6 @@ package fr.nova.novascrape.controller;
 import fr.nova.novascrape.themes.DarkMode;
 import fr.nova.novascrape.view.LogoContainer;
 import io.github.palexdev.materialfx.controls.*;
-import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
 import io.github.palexdev.materialfx.utils.ToggleButtonsUtil;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoader;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoaderBean;
@@ -11,10 +10,8 @@ import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -86,7 +83,6 @@ public class ApplicationController implements Initializable {
     }
 
     public void switchDarkMode(boolean enabled) {
-
         if (enabled) {
             darkModeIcon.setDescription("fas-moon");
             darkMode.lookup(".mfx-circle-toggle-node")

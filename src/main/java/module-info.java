@@ -14,4 +14,8 @@ module fr.nova.novascrape {
     exports fr.nova.novascrape;
     exports fr.nova.novascrape.controller;
     opens fr.nova.novascrape.controller to javafx.fxml;
+    exports fr.nova.novascrape.model.base;
+    exports fr.nova.novascrape.model.details;
+    exports fr.nova.novascrape.view;
+    exports fr.nova.novascrape.service;
 }

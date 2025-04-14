@@ -1,12 +1,11 @@
 package fr.nova.novascrape.model.details;
 
-public class SupermarketDetails {
+public class SupermarketDetail extends BaseEntityDetail {
     String telephone;
     String horaires;
-    String nom;
-    String address;
 
-    public SupermarketDetails(String nom, String address, String telephone, String horaires) {
+    public SupermarketDetail(String nom, String address, String telephone, String horaires) {
+        super(nom, address);
         this.telephone = telephone;
         this.horaires = horaires;
     }
@@ -17,14 +16,6 @@ public class SupermarketDetails {
 
     public String getHoraires() {
         return horaires;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     @Override

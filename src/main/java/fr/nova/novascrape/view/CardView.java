@@ -1,36 +1,34 @@
 package fr.nova.novascrape.view;
 
-import fr.nova.novascrape.model.base.Supermarket;
+import fr.nova.novascrape.model.base.BaseEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.enums.ButtonType;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import static fr.nova.novascrape.NovaScrapeUtils.createSpacer;
 
-public class SupermarketCardView {
-    private final Supermarket item;
+public abstract class CardView<T extends BaseEntity> {
+    protected T entity;
+    protected VBox card;
 
-    public SupermarketCardView(Supermarket item) {
-        this.item = item;
+    public CardView(T entity) {
+        this.entity = entity;
+        this.card = new VBox();
     }
 
     public VBox getCard() {
-        VBox card = new VBox();
-
         card.setStyle("-fx-position-shape: flex;");
         card.setPrefSize(200, 150);
 
-        Label title = new Label(item.getNom());
+        Label title = new Label(entity.getNom());
         title.getStyleClass().add("card-title");
         title.setWrapText(true);
         title.setMaxWidth(Double.MAX_VALUE);
         title.setAlignment(Pos.CENTER);
 
-        Label address = new Label(item.getAdresse());
+        Label address = new Label(entity.getAddress());
         address.setWrapText(true);
         address.getStyleClass().add("card-address");
 
@@ -47,4 +45,9 @@ public class SupermarketCardView {
         card.getStyleClass().add("card");
         return card;
     }
+
+    public MFXButton getCardButton() {
+        return (MFXButton) card.lookup(".card-button");
+    }
 }
+

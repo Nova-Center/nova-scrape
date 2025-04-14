@@ -1,21 +1,14 @@
 package fr.nova.novascrape.model.base;
 
-public  class Supermarket {
-    private final String nom;
-    private final String adresse;
+public class Supermarket extends BaseEntity {
     private final String detailsUrl;
 
     public Supermarket(String nom, String adresse, String detailsUrl) {
-        this.nom = nom;
-        this.adresse = adresse;
+        super(nom, adresse);
         this.detailsUrl = detailsUrl;
     }
 
-    public String getNom() {
-        return nom;
+    public String getDetailsUrl() {
+        return detailsUrl;
     }
-    public String getAdresse() {
-        return adresse;
-    }
-    public String getDetailsUrl() {return detailsUrl;}
 }

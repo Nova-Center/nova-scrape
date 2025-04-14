@@ -1,8 +1,6 @@
 package fr.nova.novascrape.model.details;
 
-public class RestaurantDetails {
-    String nom;
-    String adresse;
+public class RestaurantDetail extends BaseEntityDetail {
     String metro;
     String telephone;
     String typeCuisine;
@@ -13,9 +11,8 @@ public class RestaurantDetails {
     String services;
     String commentaires;
 
-    public RestaurantDetails(String nom, String adresse, String metro, String telephone, String typeCuisine, String genreEtablissement, String fermetureHebdo, String prixMenu, String guide, String services, String commentaires) {
-        this.nom = nom;
-        this.adresse = adresse;
+    public RestaurantDetail(String nom, String adresse, String metro, String telephone, String typeCuisine, String genreEtablissement, String fermetureHebdo, String prixMenu, String guide, String services, String commentaires) {
+        super(nom, adresse);
         this.metro = metro;
         this.telephone = telephone;
         this.typeCuisine = typeCuisine;
@@ -27,16 +24,37 @@ public class RestaurantDetails {
         this.commentaires = commentaires;
     }
 
-    public String getNom() {return nom;}
-    public String getAdresse() {return adresse;}
-    public String getMetro() {return metro;}
-    public String getTelephone() {return telephone;}
-    public String getTypeCuisine() {return typeCuisine;}
-    public String getGenreEtablissement() {return genreEtablissement;}
-    public String getFermetureHebdo() {return fermetureHebdo;}
-    public String getPrixMenu() {return prixMenu;}
-    public String getGuide() {return guide;}
-    public String getServices() {return services;}
+    public String getMetro() {
+        return metro;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public String getTypeCuisine() {
+        return typeCuisine;
+    }
+
+    public String getGenreEtablissement() {
+        return genreEtablissement;
+    }
+
+    public String getFermetureHebdo() {
+        return fermetureHebdo;
+    }
+
+    public String getPrixMenu() {
+        return prixMenu;
+    }
+
+    public String getGuide() {
+        return guide;
+    }
+
+    public String getServices() {
+        return services;
+    }
 
     @Override
     public String toString() {
