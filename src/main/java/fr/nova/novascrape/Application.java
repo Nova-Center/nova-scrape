@@ -10,11 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class Application extends javafx.application.Application {
+    private static final Logger log = LogManager.getLogger(Application.class);
+
     @Override
     public void start(Stage stage) throws IOException {
         CSSFX.start();
@@ -37,6 +41,8 @@ public class Application extends javafx.application.Application {
         stage.setTitle("Nova Scrape");
         stage.setScene(scene);
         stage.show();
+
+        log.info("Démarrage de Nova Scrape");
     }
 
     public static void main(String[] args) {

@@ -1,8 +1,11 @@
 package fr.nova.novascrape.service;
 
+import fr.nova.novascrape.Application;
 import fr.nova.novascrape.model.base.Restaurant;
 import fr.nova.novascrape.model.base.HairSalon;
 import fr.nova.novascrape.model.base.Supermarket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -15,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WebScrapingService {
+    private static final Logger log = LogManager.getLogger(WebScrapingService.class);
+
     public List<Supermarket> getSupermarkets() {
         List<Supermarket> supermarkets = new ArrayList<>();
         String url = "https://www.bonial.fr/Magasins/Paris/Supermarches/v-c5";
@@ -29,8 +34,10 @@ public class WebScrapingService {
                 supermarkets.add(new Supermarket(nom, adresse, detailsUrl));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
+
+        log.info("Supermarchés trouvés");
 
         return supermarkets;
     }
@@ -66,12 +73,14 @@ public class WebScrapingService {
                     salons.add(salon);
                 }
             } else {
-                System.out.println("Script JSON non trouvé.");
+                log.warn("Script JSON non trouvé");
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
+
+        log.info("Salons de coiffure trouvés");
 
         return salons;
     }
@@ -88,20 +97,22 @@ public class WebScrapingService {
                 String nom = restaurantElement.select("h2.nom_resto").text();
                 String adresse = restaurantElement.select("div.adresse").text();
                 String typeCuisine = restaurantElement.select("div.type-cuisine a").text();
-                String lienDetail =  restaurantElement.select("div.img-resto a").attr("href");
+                String lienDetail = restaurantElement.select("div.img-resto a").attr("href");
                 String description = restaurantElement.select("div.resume p").text();
 
                 restaurants.add(new Restaurant(nom, adresse, typeCuisine, lienDetail, description));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
+
+        log.info("Restaurants trouvés");
 
         return restaurants;
     }
 
     //Pour les infos du garage du quartier
-    public void getGarageQuartier () {
+    public void getGarageQuartier() {
         try {
             Document doc = Jsoup.connect("https://www.garage-st-antoine.com/garage-saint-antoine-specialiste-bmw-mini-paris-nation-qui-sommes-nous").get();
             Elements elements = doc.select("div.textwidget");

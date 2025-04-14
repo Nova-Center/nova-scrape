@@ -8,6 +8,8 @@ import fr.nova.novascrape.model.base.Supermarket;
 import fr.nova.novascrape.model.details.RestaurantDetail;
 import fr.nova.novascrape.model.details.HairSalonDetail;
 import fr.nova.novascrape.model.details.SupermarketDetail;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -19,11 +21,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class WebScrapingDetail {
+    private static final Logger log = LogManager.getLogger(WebScrapingDetail.class);
 
-    //Récuperation du detail via l'url de detail (pour les restaurants)
     public RestaurantDetail getRestaurantDetail(String urlDetail) {
         RestaurantDetail restaurant = null;
-
         try {
             Document doc = Jsoup.connect(urlDetail).get();
 
@@ -47,8 +48,11 @@ public class WebScrapingDetail {
             restaurant = new RestaurantDetail(nom, adresse, metro, telephone, typeCuisine, genreEtablissement, fermetureHebdo, prixMenu, guides, services.toString(), commentaires);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
+
+        if (restaurant != null) log.info("Détails du restaurant {} trouvé", restaurant.getNom());
+        else log.warn("Aucun détail trouvé pour l'url {}", urlDetail);
 
         return restaurant;
     }
@@ -106,8 +110,11 @@ public class WebScrapingDetail {
             salon = new HairSalonDetail(nom, adresse, horaires.toString(), tarifs.toString());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
+
+        if (salon != null) log.info("Détails du salon {} trouvé", salon.getNom());
+        else log.warn("Aucun détail trouvé pour l'url {}", urlDetail);
 
         return salon;
     }
@@ -141,8 +148,12 @@ public class WebScrapingDetail {
             return market;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e);
         }
+
+        if (market != null) log.info("Détails du supermarché {} trouvé", market.getNom());
+        else log.warn("Aucun détail trouvé pour l'url {}", supermarket.getDetailsUrl());
+
         return market;
     }
 

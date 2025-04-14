@@ -9,6 +9,7 @@ module fr.nova.novascrape {
     requires org.jsoup;
     requires org.json;
     requires htmlunit;
+    requires org.apache.logging.log4j;
 
     opens fr.nova.novascrape to javafx.fxml;
     exports fr.nova.novascrape;
