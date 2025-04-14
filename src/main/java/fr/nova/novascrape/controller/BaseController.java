@@ -4,8 +4,7 @@ import fr.nova.novascrape.model.base.BaseEntity;
 import fr.nova.novascrape.model.details.BaseEntityDetail;
 import fr.nova.novascrape.service.WebScrapingDetail;
 import fr.nova.novascrape.service.WebScrapingService;
-import fr.nova.novascrape.view.CardView;
-import fr.nova.novascrape.view.DetailView;
+import fr.nova.novascrape.view.BaseEntityView;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
@@ -70,9 +69,9 @@ public abstract class BaseController<T extends BaseEntity, D extends BaseEntityD
         });
     }
 
-    protected void displayItems(List<T> items, Function<T, CardView<T>> cardFactory) {
+    protected void displayItems(List<T> items, Function<T, BaseEntityView<T, D>> cardFactory) {
         items.forEach(item -> {
-            CardView<T> cardView = cardFactory.apply(item);
+            BaseEntityView<T, D> cardView = cardFactory.apply(item);
             VBox card = cardView.getCard();
             cardView.getCardButton().setOnAction(event -> openInfo(event, item));
             cardContainer.getChildren().add(card);
@@ -80,7 +79,7 @@ public abstract class BaseController<T extends BaseEntity, D extends BaseEntityD
     }
 
     protected void openInfo(ActionEvent event, T entity) {
-        DetailView<D> view = createDetailView();
+        BaseEntityView<T, D> view = createDetailView(entity);
         view.applyDarkTheme();
         view.showLoading(entity.getNom());
 
@@ -102,9 +101,9 @@ public abstract class BaseController<T extends BaseEntity, D extends BaseEntityD
 
     protected abstract List<T> getItems();
 
-    protected abstract Function<T, CardView<T>> getCardFactory();
+    protected abstract Function<T, BaseEntityView<T, D>> getCardFactory();
 
-    protected abstract DetailView<D> createDetailView();
+    protected abstract BaseEntityView<T, D> createDetailView(T entity);
 
     protected abstract D fetchDetails(T entity);
 

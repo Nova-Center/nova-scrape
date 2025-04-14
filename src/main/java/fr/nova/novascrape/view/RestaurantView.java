@@ -1,16 +1,29 @@
 package fr.nova.novascrape.view;
 
 import fr.nova.novascrape.model.base.Restaurant;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.enums.ButtonType;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import fr.nova.novascrape.model.details.RestaurantDetail;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
+import javafx.scene.layout.HBox;
 
-import static fr.nova.novascrape.NovaScrapeUtils.createSpacer;
+import java.util.List;
 
-public class RestaurantView extends CardView<Restaurant> {
-    public RestaurantView(Restaurant entity) {
-        super(entity);
+public class RestaurantView extends BaseEntityView<Restaurant, RestaurantDetail> {
+    public RestaurantView(MFXGenericDialog content, MFXStageDialog dialog, Restaurant entity) {
+        super(content, dialog, entity);
+    }
+
+    @Override
+    protected List<HBox> createLines(RestaurantDetail detail) {
+        return List.of(createLine("Nom", detail.getNom()),
+                createLine("Adresse", detail.getAdresse()),
+                createLine("Téléphone", detail.getTelephone()),
+                createLine("Fermeture", detail.getFermetureHebdo()),
+                createLine("Métro", detail.getMetro()),
+                createLine("Type", detail.getGenreEtablissement()),
+                createLine("Services", detail.getServices()),
+                createLine("Prix Menu", detail.getPrixMenu()),
+                createLine("Cuisine", detail.getTypeCuisine()),
+                createLine("Guide", detail.getGuide()));
     }
 }

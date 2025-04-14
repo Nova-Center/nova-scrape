@@ -1,16 +1,25 @@
 package fr.nova.novascrape.view;
 
 import fr.nova.novascrape.model.base.Supermarket;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.enums.ButtonType;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import fr.nova.novascrape.model.details.SupermarketDetail;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
+import javafx.scene.layout.HBox;
 
-import static fr.nova.novascrape.NovaScrapeUtils.createSpacer;
+import java.util.List;
 
-public class SupermarketView extends CardView<Supermarket> {
-    public SupermarketView(Supermarket entity) {
-        super(entity);
+public class SupermarketView extends BaseEntityView<Supermarket, SupermarketDetail> {
+    public SupermarketView(MFXGenericDialog content, MFXStageDialog dialog, Supermarket entity) {
+        super(content, dialog, entity);
+    }
+
+    @Override
+    protected List<HBox> createLines(SupermarketDetail detail) {
+        return List.of(createLine("Nom", detail.getNom()),
+                createLine("Adresse", detail.getAdresse()),
+                createLine("Tel", detail.getTelephone()),
+                createLine("Horaires", detail.getHoraires())
+        );
     }
 }
+

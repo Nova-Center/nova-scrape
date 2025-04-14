@@ -20,13 +20,13 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantD
     }
 
     @Override
-    protected Function<Restaurant, CardView<Restaurant>> getCardFactory() {
-        return RestaurantView::new;
+    protected Function<Restaurant, BaseEntityView<Restaurant, RestaurantDetail>> getCardFactory() {
+        return restaurant -> new RestaurantView(dialogContent, dialog, restaurant);
     }
 
     @Override
-    protected DetailView<RestaurantDetail> createDetailView() {
-        return new RestaurantDetailView(dialogContent, dialog);
+    protected BaseEntityView<Restaurant, RestaurantDetail> createDetailView(Restaurant entity) {
+        return new RestaurantView(dialogContent, dialog, entity);
     }
 
     @Override

@@ -1,10 +1,14 @@
 package fr.nova.novascrape.view;
 
 import fr.nova.novascrape.interfaces.DarkTheme;
+import fr.nova.novascrape.model.base.BaseEntity;
+import fr.nova.novascrape.model.details.BaseEntityDetail;
 import fr.nova.novascrape.themes.DarkMode;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
+import io.github.palexdev.materialfx.enums.ButtonType;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,14 +19,52 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public abstract class DetailView<D> implements DarkTheme {
+import static fr.nova.novascrape.NovaScrapeUtils.createSpacer;
+
+public abstract class BaseEntityView<T extends BaseEntity, D extends BaseEntityDetail> implements DarkTheme {
     protected final MFXGenericDialog dialogContent;
     protected final MFXStageDialog dialog;
+    protected final VBox card;
+    protected final T entity;
 
-    public DetailView(MFXGenericDialog content, MFXStageDialog dialog) {
+    public BaseEntityView(MFXGenericDialog content, MFXStageDialog dialog, T entity) {
         this.dialogContent = content;
         this.dialog = dialog;
+        this.card = new VBox();
+        this.entity = entity;
         convertDialogTo("mfx-info-dialog");
+    }
+
+    public VBox getCard() {
+        card.setStyle("-fx-position-shape: flex;");
+        card.setPrefSize(200, 150);
+
+        Label title = new Label(entity.getNom());
+        title.getStyleClass().add("card-title");
+        title.setWrapText(true);
+        title.setMaxWidth(Double.MAX_VALUE);
+        title.setAlignment(Pos.CENTER);
+
+        Label address = new Label(entity.getAddress());
+        address.setWrapText(true);
+        address.getStyleClass().add("card-address");
+
+        card.setSpacing(0);
+
+        MFXButton button = new MFXButton("Détails");
+        button.setMinHeight(27);
+        button.setMinWidth(70);
+        button.setButtonType(ButtonType.RAISED);
+        button.getStyleClass().add("card-button");
+        button.setPrefWidth(Double.MAX_VALUE);
+
+        card.getChildren().addAll(title, createSpacer(), address, createSpacer(), button);
+        card.getStyleClass().add("card");
+        return card;
+    }
+
+    public MFXButton getCardButton() {
+        return (MFXButton) card.lookup(".card-button");
     }
 
     protected abstract List<HBox> createLines(D detail);
@@ -54,6 +96,8 @@ public abstract class DetailView<D> implements DarkTheme {
     }
 
     private void convertDialogTo(String styleClass) {
+        if (dialogContent == null) return;
+
         dialogContent.getStyleClass().removeIf(
                 s -> s.equals("mfx-info-dialog") || s.equals("mfx-warn-dialog") || s.equals("mfx-error-dialog")
         );

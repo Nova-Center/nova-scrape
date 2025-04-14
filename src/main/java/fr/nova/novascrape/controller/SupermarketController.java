@@ -2,10 +2,8 @@ package fr.nova.novascrape.controller;
 
 import fr.nova.novascrape.model.base.Supermarket;
 import fr.nova.novascrape.model.details.SupermarketDetail;
-import fr.nova.novascrape.view.CardView;
-import fr.nova.novascrape.view.DetailView;
+import fr.nova.novascrape.view.BaseEntityView;
 import fr.nova.novascrape.view.SupermarketView;
-import fr.nova.novascrape.view.SupermarketDetailView;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -23,13 +21,13 @@ public class SupermarketController extends BaseController<Supermarket, Supermark
     }
 
     @Override
-    protected Function<Supermarket, CardView<Supermarket>> getCardFactory() {
-        return SupermarketView::new;
+    protected Function<Supermarket, BaseEntityView<Supermarket, SupermarketDetail>> getCardFactory() {
+        return supermarket -> new SupermarketView(dialogContent, dialog, supermarket);
     }
 
     @Override
-    protected DetailView<SupermarketDetail> createDetailView() {
-        return new SupermarketDetailView(dialogContent, dialog);
+    protected BaseEntityView<Supermarket, SupermarketDetail> createDetailView(Supermarket entity) {
+        return new SupermarketView(dialogContent, dialog, entity);
     }
 
     @Override

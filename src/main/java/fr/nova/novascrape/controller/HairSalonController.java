@@ -2,9 +2,7 @@ package fr.nova.novascrape.controller;
 
 import fr.nova.novascrape.model.base.HairSalon;
 import fr.nova.novascrape.model.details.HairSalonDetail;
-import fr.nova.novascrape.view.CardView;
-import fr.nova.novascrape.view.DetailView;
-import fr.nova.novascrape.view.HairSalonDetailView;
+import fr.nova.novascrape.view.BaseEntityView;
 import fr.nova.novascrape.view.HairSalonView;
 import javafx.stage.Stage;
 
@@ -22,13 +20,13 @@ public class HairSalonController extends BaseController<HairSalon, HairSalonDeta
     }
 
     @Override
-    protected Function<HairSalon, CardView<HairSalon>> getCardFactory() {
-        return HairSalonView::new;
+    protected Function<HairSalon, BaseEntityView<HairSalon, HairSalonDetail>> getCardFactory() {
+        return hairSalon -> new HairSalonView(dialogContent, dialog, hairSalon);
     }
 
     @Override
-    protected DetailView<HairSalonDetail> createDetailView() {
-        return new HairSalonDetailView(dialogContent, dialog);
+    protected BaseEntityView<HairSalon, HairSalonDetail> createDetailView(HairSalon entity) {
+        return new HairSalonView(dialogContent, dialog, entity);
     }
 
     @Override
