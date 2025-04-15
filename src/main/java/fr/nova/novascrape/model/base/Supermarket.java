@@ -11,4 +11,5 @@ public class Supermarket extends BaseEntity {
     public String getDetailsUrl() {
         return detailsUrl;
     }
+
 }

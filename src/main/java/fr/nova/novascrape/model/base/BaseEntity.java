@@ -1,8 +1,8 @@
 package fr.nova.novascrape.model.base;
 
 public abstract class BaseEntity {
-    protected final String nom;
-    protected final String addresse;
+    protected String nom;
+    protected String addresse;
 
     public BaseEntity(String nom, String addresse) {
         this.nom = nom;
@@ -12,8 +12,14 @@ public abstract class BaseEntity {
     public String getNom() {
         return nom;
     }
-
     public String getAddress() {
         return addresse;
+    }
+
+    public String setNom(String nom) {
+        return this.nom = nom;
+    }
+    public String setAddress(String addresse) {
+        return this.addresse = addresse;
     }
 }
