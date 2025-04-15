@@ -16,10 +16,6 @@ public abstract class BaseEntity {
         return addresse;
     }
 
-    public String setNom(String nom) {
-        return this.nom = nom;
-    }
-    public String setAddress(String addresse) {
-        return this.addresse = addresse;
-    }
+    public String setNom(String nom) {return this.nom = nom;}
+    public String setAddress(String addresse) {return this.addresse = addresse;}
 }

@@ -16,4 +16,8 @@ public abstract class BaseEntityDetail {
     public String getAdresse() {
         return adresse;
     }
+
+    public String setNom(String nom){return this.nom = nom;}
+
+    public String setAdresse(String adresse) {return this.adresse = adresse;}
 }

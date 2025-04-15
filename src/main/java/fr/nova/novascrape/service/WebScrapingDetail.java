@@ -119,7 +119,7 @@ public class WebScrapingDetail {
         return salon;
     }
 
-    //Récuperation du detail via l'url de detail (pour les supermarcge) (pas completement focntionnel)
+    //Récuperation du detail via l'url de detail (pour les supermarcge)
     public SupermarketDetail getSupermarketDetail(Supermarket supermarket) {
         String url = supermarket.getDetailsUrl();
         SupermarketDetail market = null;

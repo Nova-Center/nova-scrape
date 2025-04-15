@@ -22,7 +22,6 @@ class WebScrapingServiceTest {
         supermarket = new Supermarket("Monop'","rue de la Roquette 75011 Paris 0,08km","https://www.bonial.fr/Magasins/Paris/Monop-rue-de-la-Roquette/v-f247138930");
         hairSalon = new HairSalon("Barber Shop Number One","16 Place de la Nation, 75012 Paris","N/A","https://www.treatwell.fr/salon/barber-shop-number-one/");
         restaurant = new Restaurant("KHUN AKORN","8, AVENUE DE TAILLEBOURG 75011 PARIS 11ème Nation","Thai","https://www.lesrestos.com/restaurant/fiche/paris/khun-akorn","Si l'adresse est discrète, et le décor exotique et recherché, on vient pour la cuisine de spécialités thaïes qui explique le déplacement des nombreux...");
-
     }
 
     @Test
