@@ -30,4 +30,5 @@ public class Restaurant extends BaseEntity {
         return "Nom: " + this.nom + ", Adresse: " + this.addresse + ", Type de cuisine: " + typeCuisine + ", Lien: " + lienDetail + ", Description: " + description;
     }
 
+
 }

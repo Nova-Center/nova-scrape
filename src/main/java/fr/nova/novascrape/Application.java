@@ -2,6 +2,8 @@ package fr.nova.novascrape;
 
 import fr.brouillard.oss.cssfx.CSSFX;
 import fr.nova.novascrape.controller.ApplicationController;
+import fr.nova.novascrape.db.Database;
+import fr.nova.novascrape.maj.*;
 import io.github.palexdev.materialfx.theming.JavaFXThemes;
 import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
 import io.github.palexdev.materialfx.theming.UserAgentBuilder;
@@ -21,8 +23,27 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        CSSFX.start();
 
+        ReleaseInfo latest = UpdateChecker.getLatestReleaseInfo();
+        String localVersion = Version.getCurrentVersion();
+
+        if (latest != null && !localVersion.equals(latest.getVersion())) {
+            System.out.println("🚀 Mise à jour disponible : " + latest.getVersion());
+            // 1. Télécharger le nouveau JAR
+            String newJarPath = "nova-scrape-latest.jar";
+            UpdateDownloader.downloadNewVersion(latest.getJarUrl(), newJarPath);
+            // 2. Mettre à jour le fichier de version locale
+            Version.updateLocalVersion(latest.getVersion());
+            // 3. Lancer le nouveau JAR
+            UpdaterExecutor.launchNewJar(newJarPath);
+            return; // stop le reste du programme
+        } else {
+            System.out.println("✅ Application à jour !");
+        }
+
+
+        CSSFX.start();
+        Database.initDatabase();
         UserAgentBuilder.builder()
                 .themes(JavaFXThemes.MODENA)
                 .themes(MaterialFXStylesheets.forAssemble(true))

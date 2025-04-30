@@ -4,6 +4,9 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import fr.nova.novascrape.db.dao.detail.HairSalonDetailDAO;
+import fr.nova.novascrape.db.dao.detail.RestaurantDetailDAO;
+import fr.nova.novascrape.db.dao.detail.SupermarketDetailDAO;
 import fr.nova.novascrape.model.base.Supermarket;
 import fr.nova.novascrape.model.details.RestaurantDetail;
 import fr.nova.novascrape.model.details.HairSalonDetail;
@@ -46,7 +49,7 @@ public class WebScrapingDetail {
 
             String commentaires = doc.select("div.commentaire.article").text();
             restaurant = new RestaurantDetail(nom, adresse, metro, telephone, typeCuisine, genreEtablissement, fermetureHebdo, prixMenu, guides, services.toString(), commentaires);
-
+            new RestaurantDetailDAO().save(urlDetail, restaurant);
         } catch (IOException e) {
             log.error(e);
         }
@@ -108,6 +111,7 @@ public class WebScrapingDetail {
             }
 
             salon = new HairSalonDetail(nom, adresse, horaires.toString(), tarifs.toString());
+            new HairSalonDetailDAO().save(urlDetail, salon);
 
         } catch (IOException e) {
             log.error(e);
@@ -145,6 +149,7 @@ public class WebScrapingDetail {
             }
 
             market = new SupermarketDetail(supermarket.getNom(), supermarket.getAddress(), telephone, horaires.toString());
+            new SupermarketDetailDAO().save(url, market);
             return market;
 
         } catch (Exception e) {

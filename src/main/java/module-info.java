@@ -10,6 +10,8 @@ module fr.nova.novascrape {
     requires org.json;
     requires htmlunit;
     requires org.apache.logging.log4j;
+    requires java.sql;
+    requires okhttp3;
 
     opens fr.nova.novascrape to javafx.fxml;
     exports fr.nova.novascrape;

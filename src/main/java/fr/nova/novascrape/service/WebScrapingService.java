@@ -1,6 +1,9 @@
 package fr.nova.novascrape.service;
 
 import fr.nova.novascrape.Application;
+import fr.nova.novascrape.db.dao.base.HairSalonDAO;
+import fr.nova.novascrape.db.dao.base.RestaurantDAO;
+import fr.nova.novascrape.db.dao.base.SupermarketDAO;
 import fr.nova.novascrape.model.base.Restaurant;
 import fr.nova.novascrape.model.base.HairSalon;
 import fr.nova.novascrape.model.base.Supermarket;
@@ -31,7 +34,9 @@ public class WebScrapingService {
                 String nom = storeElement.select("div.font-semibold").text();
                 String adresse = storeElement.select("div.text-sm").text();
                 String detailsUrl = storeElement.attr("href");
-                supermarkets.add(new Supermarket(nom, adresse, detailsUrl));
+                Supermarket supermarket = new Supermarket(nom, adresse, detailsUrl);
+                supermarkets.add(supermarket);
+                new SupermarketDAO().saveAndReturnId(supermarket);
             }
         } catch (IOException e) {
             log.error(e);
@@ -71,6 +76,7 @@ public class WebScrapingService {
 
                     HairSalon salon = new HairSalon(nom, adresse, prix, lienDetail);
                     salons.add(salon);
+                    new HairSalonDAO().saveAndReturnId(salon);
                 }
             } else {
                 log.warn("Script JSON non trouvé");
@@ -99,8 +105,9 @@ public class WebScrapingService {
                 String typeCuisine = restaurantElement.select("div.type-cuisine a").text();
                 String lienDetail = restaurantElement.select("div.img-resto a").attr("href");
                 String description = restaurantElement.select("div.resume p").text();
-
-                restaurants.add(new Restaurant(nom, adresse, typeCuisine, lienDetail, description));
+                Restaurant restaurant = new Restaurant(nom, adresse, typeCuisine, lienDetail,description);
+                restaurants.add(restaurant);
+                new RestaurantDAO().saveAndReturnId(restaurant);
             }
         } catch (IOException e) {
             log.error(e);

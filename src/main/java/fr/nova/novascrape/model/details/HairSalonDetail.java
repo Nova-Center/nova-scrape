@@ -15,7 +15,6 @@ public class HairSalonDetail extends BaseEntityDetail {
     public String getHoraire() {
         return horaire;
     }
-
     public String getTarif() {
         return tarif;
     }
