@@ -1,26 +1,33 @@
 package fr.nova.novascrape.db.dao.detail;
 
+import fr.nova.novascrape.Application;
 import fr.nova.novascrape.db.Database;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+
 public abstract class AbstractDetailDAO<T> implements DetailDAO<T> {
+    private static final Logger log = LogManager.getLogger(AbstractDetailDAO.class);
 
     protected abstract String getBaseTableName();
+
     protected abstract String getInsertQuery();
+
     protected abstract void fillInsertParams(PreparedStatement stmt, int baseId, T detail) throws SQLException;
 
     @Override
     public void save(String url, T detail) {
         int baseId = getIdByUrl(url);
         if (baseId == -1) {
-            System.out.println("Aucun ID trouvé pour l'URL : " + url);
+            log.info("Aucun ID trouvé pour l'URL : {}", url);
             return;
         }
 
         try (Connection conn = Database.getConnection(); PreparedStatement stmt = conn.prepareStatement(getInsertQuery())) {
             fillInsertParams(stmt, baseId, detail);
             stmt.executeUpdate();
-            System.out.println(getBaseTableName() + "saved");
+            log.info("{}saved", getBaseTableName());
         } catch (SQLException e) {
             e.printStackTrace();
         }

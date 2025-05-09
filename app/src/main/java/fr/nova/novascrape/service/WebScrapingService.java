@@ -133,12 +133,12 @@ public class WebScrapingService {
             String telephone = doc.select("a[href^=tel:]").attr("href").replace("tel:", "");
 
             // Affichage des informations
-            System.out.println("Nom du garage : " + nom);
-            System.out.println("Adresse : " + adresse);
-            System.out.println("Téléphone : " + telephone);
+            log.info("Nom du garage : {}", nom);
+            log.info("Adresse : {}", adresse);
+            log.info("Téléphone : {}", telephone);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 

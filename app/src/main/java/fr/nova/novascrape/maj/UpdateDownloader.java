@@ -1,5 +1,9 @@
 package fr.nova.novascrape.maj;
 
+import fr.nova.novascrape.Application;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class UpdateDownloader {
+    private static final Logger log = LogManager.getLogger(UpdateDownloader.class);
 
     public static void downloadNewVersion(String downloadUrl, String outputFilePath) {
         try (BufferedInputStream in = new BufferedInputStream(new URL(downloadUrl).openStream());
@@ -19,7 +24,7 @@ public class UpdateDownloader {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
             }
 
-            System.out.println("✅ Nouvelle version téléchargée avec succès !");
+            log.info("✅ Nouvelle version téléchargée avec succès !");
         } catch (IOException e) {
             System.err.println("❌ Erreur lors du téléchargement : " + e.getMessage());
         }
