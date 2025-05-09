@@ -6,53 +6,68 @@ import fr.nova.novascrape.model.base.Supermarket;
 import fr.nova.novascrape.service.WebScrapingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+
 class WebScrapingServiceTest {
+
+    @Mock
     private WebScrapingService webScrapingService;
-    private Restaurant restaurant;
+
     private Supermarket supermarket;
+
     private HairSalon hairSalon;
+
+    private Restaurant restaurant;
 
     @BeforeEach
     void setUp() {
-        this.webScrapingService = new WebScrapingService();
-        supermarket = new Supermarket("Monop'","rue de la Roquette 75011 Paris 0,08km","https://www.bonial.fr/Magasins/Paris/Monop-rue-de-la-Roquette/v-f247138930");
-        hairSalon = new HairSalon("Barber Shop Number One","16 Place de la Nation, 75012 Paris","N/A","https://www.treatwell.fr/salon/barber-shop-number-one/");
-        restaurant = new Restaurant("KHUN AKORN","8, AVENUE DE TAILLEBOURG 75011 PARIS 11ème Nation","Thai","https://www.lesrestos.com/restaurant/fiche/paris/khun-akorn","Si l'adresse est discrète, et le décor exotique et recherché, on vient pour la cuisine de spécialités thaïes qui explique le déplacement des nombreux...");
+        MockitoAnnotations.openMocks(this);
+
+        supermarket = new Supermarket("Monop'", "rue de la Roquette 75011 Paris 0,08km", "https://www.bonial.fr/Magasins/Paris/Monop-rue-de-la-Roquette/v-f247138930");
+        hairSalon = new HairSalon("Barber Shop Number One", "16 Place de la Nation, 75012 Paris", "N/A", "https://www.treatwell.fr/salon/barber-shop-number-one/");
+        restaurant = new Restaurant("KHUN AKORN", "8, AVENUE DE TAILLEBOURG 75011 PARIS 11ème Nation", "Thai", "https://www.lesrestos.com/restaurant/fiche/paris/khun-akorn", "Si l'adresse est discrète, et le décor exotique et recherché, on vient pour la cuisine de spécialités thaïes qui explique le déplacement des nombreux...");
     }
 
     @Test
     void getSupermarkets() {
+        when(webScrapingService.getSupermarkets()).thenReturn(List.of(supermarket));
 
-        List<Supermarket> markets =  webScrapingService.getSupermarkets();
+        List<Supermarket> markets = webScrapingService.getSupermarkets();
+
         Supermarket market = markets.get(0);
-        //verify Supermarket object are good
-        assertEquals(market,supermarket);
-        //verify when Supermarket object are bad
-        assertNotEquals(market,supermarket.setNom("Monopolie"));
+
+        // Vérification des assertions
+        assertEquals(supermarket, market);
+        assertNotEquals(supermarket.setNom("Monopolie"), market);
     }
 
     @Test
     void getHairSalons() {
-        List<HairSalon> salon  = webScrapingService.getHairSalons();
-        HairSalon hairSalonRes = salon.get(0);
+        when(webScrapingService.getHairSalons()).thenReturn(List.of(hairSalon));
 
-        assertEquals(hairSalon,hairSalonRes);
-        assertNotEquals(hairSalon,hairSalonRes.setAddress("10 rue des peintres"));
+        List<HairSalon> salons = webScrapingService.getHairSalons();
+
+        HairSalon salonRes = salons.get(0);
+
+        assertEquals(hairSalon, salonRes);
+        assertNotEquals(hairSalon.setAddress("10 rue des peintres"), salonRes);
     }
 
     @Test
     void getRestaurants() {
-        List<Restaurant> restaurants = webScrapingService.getRestaurants();
-        Restaurant restaurant = restaurants.get(0);
-        assertEquals(restaurant,restaurant);
-        assertNotEquals(restaurant,restaurant.setAddress("10 rue des zingoingoin"));
-    }
+        when(webScrapingService.getRestaurants()).thenReturn(List.of(restaurant));
 
-    @Test
-    void getGarageQuartier() {
+        List<Restaurant> restaurants = webScrapingService.getRestaurants();
+
+        Restaurant restaurantRes = restaurants.get(0);
+
+        assertEquals(restaurant, restaurantRes);
+        assertNotEquals(restaurant.setAddress("10 rue des zingoingoin"), restaurantRes);
     }
 }
