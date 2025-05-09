@@ -3,6 +3,7 @@
 - Java 21
 - JavaFX 21
 - MaterialFX
+- PF4J
 - Log4j2
 - JSoup
 - Maven
