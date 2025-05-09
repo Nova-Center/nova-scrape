@@ -26,7 +26,7 @@ public class Version {
 
     public static void updateLocalVersion(String newVersion) {
         try {
-            Files.writeString(Path.of("src/main/resources/version.txt"), newVersion);
+            Files.writeString(Path.of("app/src/main/resources/version.txt"), newVersion);
             log.info("🔁 Fichier version.txt mis à jour.");
         } catch (IOException e) {
             System.err.println("❌ Erreur mise à jour version.txt : " + e.getMessage());
