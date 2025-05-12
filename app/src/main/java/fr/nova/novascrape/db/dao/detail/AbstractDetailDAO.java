@@ -1,6 +1,5 @@
 package fr.nova.novascrape.db.dao.detail;
 
-import fr.nova.novascrape.Application;
 import fr.nova.novascrape.db.Database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

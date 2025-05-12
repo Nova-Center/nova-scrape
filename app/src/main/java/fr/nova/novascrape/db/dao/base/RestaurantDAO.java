@@ -1,6 +1,5 @@
 package fr.nova.novascrape.db.dao.base;
 
-import fr.nova.novascrape.Application;
 import fr.nova.novascrape.db.Database;
 import fr.nova.novascrape.model.base.Restaurant;
 import org.apache.logging.log4j.LogManager;

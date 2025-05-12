@@ -8,6 +8,7 @@ import fr.nova.plugins.api.NovaScrapePlugin;
 import io.github.palexdev.materialfx.theming.JavaFXThemes;
 import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
 import io.github.palexdev.materialfx.theming.UserAgentBuilder;
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,8 +26,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Application extends javafx.application.Application {
-    private static final Logger log = LogManager.getLogger(Application.class);
+public class Main extends Application {
+    private static final Logger log = LogManager.getLogger(Main.class);
 
     private List<NovaScrapePlugin> loadPlugins() {
         log.info("🔄 Loading plugins...");

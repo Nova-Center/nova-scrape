@@ -1,6 +1,5 @@
 package fr.nova.novascrape.maj;
 
-import fr.nova.novascrape.Application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

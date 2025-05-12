@@ -1,6 +1,5 @@
 package fr.nova.novascrape.maj;
 
-import fr.nova.novascrape.Application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,8 +7,6 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class UpdateDownloader {
     private static final Logger log = LogManager.getLogger(UpdateDownloader.class);
