@@ -104,6 +104,11 @@ public class WebScrapingService {
                 String typeCuisine = restaurantElement.select("div.type-cuisine a").text();
                 String lienDetail = restaurantElement.select("div.img-resto a").attr("href");
                 String description = restaurantElement.select("div.resume p").text();
+
+                if (nom.isEmpty() || adresse.isEmpty() || typeCuisine.isEmpty() || lienDetail.isEmpty()) {
+                    continue;
+                }
+
                 Restaurant restaurant = new Restaurant(nom, adresse, typeCuisine, lienDetail,description);
                 restaurants.add(restaurant);
                 new RestaurantDAO().saveAndReturnId(restaurant);
