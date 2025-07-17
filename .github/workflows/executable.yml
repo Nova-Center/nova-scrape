@@ -49,16 +49,19 @@ jobs:
           --type exe ^
           --input app\target ^
           --main-jar app-1.0-SNAPSHOT.jar ^
-          --module-path "javafx\lib;app\target\lib;app\target\app-1.0-SNAPSHOT.jar" ^
-          --add-modules javafx.controls,javafx.fxml,fr.nova.novascrape ^
           --main-class fr.nova.novascrape.Main ^
+          --runtime-image "%JAVA_HOME%" ^
+          --dest target\installer ^
+          --win-dir-chooser ^
+          --win-menu ^
+          --win-shortcut ^
           --verbose
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: NovaScrape-Windows
-          path: NovaScrape-*.exe
+          path: target\installer\NovaScrape-*.exe
 
   build-macos:
     name: macOS - Build DMG
@@ -102,16 +105,18 @@ jobs:
             --type dmg \
             --input app/target \
             --main-jar app-1.0-SNAPSHOT.jar \
-            --module-path "javafx/javafx-sdk-21.0.8/lib:app/target/lib:app/target/app-1.0-SNAPSHOT.jar" \
-            --add-modules javafx.controls,javafx.fxml,fr.nova.novascrape \
             --main-class fr.nova.novascrape.Main \
+            --runtime-image "$JAVA_HOME" \
+            --dest target/installer \
+            --mac-package-identifier fr.nova.novascrape \
+            --mac-package-name NovaScrape \
             --verbose
 
       - name: Upload DMG
         uses: actions/upload-artifact@v4
         with:
           name: NovaScrape-macOS
-          path: NovaScrape-*.dmg
+          path: target/installer/NovaScrape-*.dmg
 
   release:
     name: Create GitHub Release
@@ -136,7 +141,7 @@ jobs:
         with:
           tag_name: release-${{ github.run_number }}
           files: |
-            dist/windows/NovaScrape.exe
-            dist/macos/NovaScrape.dmg
+            dist/windows/NovaScrape-*.exe
+            dist/macos/NovaScrape-*.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
