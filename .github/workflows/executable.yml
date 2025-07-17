@@ -1,0 +1,44 @@
+name: Build and Package EXE
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up JavaFX (modular JARs)
+        run: |
+          mkdir javafx
+          curl -L -o javafx.zip https://download2.gluonhq.com/openjfx/20.0.0/openjfx-20.0.0_windows-x64_bin-sdk.zip
+          tar -xf javafx.zip -C javafx --strip-components=1
+
+      - name: Build project with Maven
+        run: mvn clean package --file pom.xml
+
+      - name: Create EXE with jpackage
+        run: |
+          jpackage ^
+            --name NovaScrape ^
+            --type exe ^
+            --module-path javafx/lib;app/target;app/target/lib ^
+            --module app/fr.novascrape.Main
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: auto-${{ github.run_number }}
+          files: NovaScrape/NovaScrape.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
