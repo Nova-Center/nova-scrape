@@ -29,12 +29,7 @@ jobs:
         run: mvn clean package
 
       - name: Package EXE with jpackage
-        run: |
-          jpackage ^
-            --name NovaScrape ^
-            --type exe ^
-            --module-path javafx/lib;app/target;app/target/lib ^
-            --module app/fr.nova.novascrape.Main
+        run: jpackage --name NovaScrape --type exe --module-path javafx/lib;app/target;app/target/lib --module app/fr.nova.novascrape.Main
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
@@ -64,14 +59,11 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
+      - name: Clean duplicate JARs
+        run: rm -f app/target/lib/okio-jvm-3.6.0.jar
+
       - name: Package DMG with jpackage
-        run: |
-          jpackage \
-          --name NovaScrape \
-          --type dmg \
-          --input app/target \
-          --module-path javafx/javafx-sdk-21.0.8/lib:app/target/lib \
-          --module fr.nova.novascrape/fr.nova.novascrape.Main
+        run: jpackage --name NovaScrape --type dmg --input app/target --module-path javafx/javafx-sdk-21.0.8/lib:app/target/lib --module fr.nova.novascrape/fr.nova.novascrape.Main
 
       - name: Upload DMG
         uses: actions/upload-artifact@v4
