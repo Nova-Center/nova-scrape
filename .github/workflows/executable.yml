@@ -21,6 +21,7 @@ jobs:
 
       - name: Download JavaFX SDK
         run: |
+          mkdir javafx
           curl -L -o javafx.zip https://download2.gluonhq.com/openjfx/21.0.8/openjfx-21.0.8_osx-x64_bin-jmods.zip
           tar -xf javafx.zip -C javafx --strip-components=1
 
@@ -66,10 +67,11 @@ jobs:
       - name: Package DMG with jpackage
         run: |
           jpackage \
-            --name NovaScrape \
-            --type dmg \
-            --module-path javafx/javafx-sdk-21.0.8/lib:app/target:app/target/lib \
-            --module app/fr.nova.novascrape.Main
+          --name NovaScrape \
+          --type dmg \
+          --input app/target \
+          --module-path javafx/javafx-sdk-21.0.8/lib:app/target/lib \
+          --module fr.nova.novascrape/fr.nova.novascrape.Main
 
       - name: Upload DMG
         uses: actions/upload-artifact@v4
