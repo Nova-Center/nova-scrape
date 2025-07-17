@@ -2,7 +2,7 @@ name: Build EXE and DMG
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-windows:
@@ -16,8 +16,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          java-version: "21"
+          distribution: "temurin"
 
       - name: Download JavaFX SDK
         run: |
@@ -28,14 +28,30 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
+      - name: Verify build artifacts
+        shell: cmd
+        run: |
+          echo "Checking target directory structure:"
+          dir /s app\target
+          echo "Checking JavaFX directory structure:"
+          dir /s javafx
+
       - name: Package EXE with jpackage
-        run: jpackage --name NovaScrape --type exe --module-path javafx/lib;app/target;app/target/lib --module app/fr.nova.novascrape.Main
+        shell: cmd
+        run: |
+          jpackage --name NovaScrape ^
+          --type exe ^
+          --input app\target ^
+          --main-jar app-1.0-SNAPSHOT.jar ^
+          --module-path "javafx\lib;app\target\lib" ^
+          --add-modules fr.nova.novascrape ^
+          --main-class fr.nova.novascrape.Main
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: NovaScrape-Windows
-          path: NovaScrape/NovaScrape.exe
+          path: NovaScrape-*.exe
 
   build-macos:
     name: macOS - Build DMG
@@ -48,13 +64,15 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          java-version: "21"
+          distribution: "temurin"
 
       - name: Download JavaFX SDK
         run: |
+          mkdir javafx
           curl -L -o javafx.zip https://download2.gluonhq.com/openjfx/21.0.8/openjfx-21.0.8_osx-aarch64_bin-sdk.zip
           unzip javafx.zip -d javafx
+          ls -la javafx
 
       - name: Build with Maven
         run: mvn clean package
@@ -62,14 +80,28 @@ jobs:
       - name: Clean duplicate JARs
         run: rm -f app/target/lib/okio-jvm-3.6.0.jar
 
+      - name: Verify build artifacts
+        run: |
+          echo "Checking target directory structure:"
+          ls -R app/target
+          echo "Checking JavaFX directory structure:"
+          ls -R javafx
+
       - name: Package DMG with jpackage
-        run: jpackage --name NovaScrape --type dmg --input app/target --module-path javafx/javafx-sdk-21.0.8/lib:app/target/lib --module fr.nova.novascrape/fr.nova.novascrape.Main
+        run: |
+          jpackage --name NovaScrape \
+            --type dmg \
+            --input app/target \
+            --main-jar app-1.0-SNAPSHOT.jar \
+            --module-path "javafx/javafx-sdk-21.0.8/lib:app/target/lib" \
+            --add-modules fr.nova.novascrape \
+            --main-class fr.nova.novascrape.Main
 
       - name: Upload DMG
         uses: actions/upload-artifact@v4
         with:
           name: NovaScrape-macOS
-          path: NovaScrape/NovaScrape.dmg
+          path: NovaScrape-*.dmg
 
   release:
     name: Create GitHub Release
