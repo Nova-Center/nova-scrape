@@ -22,11 +22,15 @@ jobs:
       - name: Download JavaFX SDK
         run: |
           mkdir javafx
-          curl -L -o javafx.zip https://download2.gluonhq.com/openjfx/21.0.8/openjfx-21.0.8_osx-x64_bin-jmods.zip
+          curl -L -o javafx.zip https://download2.gluonhq.com/openjfx/21.0.8/openjfx-21.0.8_windows-x64_bin-sdk.zip
           tar -xf javafx.zip -C javafx --strip-components=1
 
       - name: Build with Maven
         run: mvn clean package
+
+      - name: Clean duplicate JARs
+        shell: cmd
+        run: del /F /Q app\target\lib\okio-jvm-3.6.0.jar
 
       - name: Verify build artifacts
         shell: cmd
@@ -35,6 +39,8 @@ jobs:
           dir /s app\target
           echo "Checking JavaFX directory structure:"
           dir /s javafx
+          echo "Main JAR file size:"
+          dir app\target\app-1.0-SNAPSHOT.jar
 
       - name: Package EXE with jpackage
         shell: cmd
@@ -43,9 +49,10 @@ jobs:
           --type exe ^
           --input app\target ^
           --main-jar app-1.0-SNAPSHOT.jar ^
-          --module-path "javafx\lib;app\target\lib" ^
-          --add-modules fr.nova.novascrape ^
-          --main-class fr.nova.novascrape.Main
+          --module-path "javafx\lib;app\target\lib;app\target\app-1.0-SNAPSHOT.jar" ^
+          --add-modules javafx.controls,javafx.fxml,fr.nova.novascrape ^
+          --main-class fr.nova.novascrape.Main ^
+          --verbose
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
@@ -86,6 +93,8 @@ jobs:
           ls -R app/target
           echo "Checking JavaFX directory structure:"
           ls -R javafx
+          echo "Main JAR file size:"
+          ls -lh app/target/app-1.0-SNAPSHOT.jar
 
       - name: Package DMG with jpackage
         run: |
@@ -93,9 +102,10 @@ jobs:
             --type dmg \
             --input app/target \
             --main-jar app-1.0-SNAPSHOT.jar \
-            --module-path "javafx/javafx-sdk-21.0.8/lib:app/target/lib" \
-            --add-modules fr.nova.novascrape \
-            --main-class fr.nova.novascrape.Main
+            --module-path "javafx/javafx-sdk-21.0.8/lib:app/target/lib:app/target/app-1.0-SNAPSHOT.jar" \
+            --add-modules javafx.controls,javafx.fxml,fr.nova.novascrape \
+            --main-class fr.nova.novascrape.Main \
+            --verbose
 
       - name: Upload DMG
         uses: actions/upload-artifact@v4
