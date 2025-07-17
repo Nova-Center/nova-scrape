@@ -1,44 +1,106 @@
-name: Build and Package EXE
+name: Build EXE and DMG
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build:
+  build-windows:
+    name: Windows - Build EXE
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
+          java-version: '21'
           distribution: 'temurin'
-          java-version: '17'
 
-      - name: Set up JavaFX (modular JARs)
+      - name: Download JavaFX SDK
         run: |
-          mkdir javafx
-          curl -L -o javafx.zip https://download2.gluonhq.com/openjfx/20.0.0/openjfx-20.0.0_windows-x64_bin-sdk.zip
+          curl -L -o javafx.zip https://download2.gluonhq.com/openjfx/21.0.8/openjfx-21.0.8_osx-x64_bin-jmods.zip
           tar -xf javafx.zip -C javafx --strip-components=1
 
-      - name: Build project with Maven
-        run: mvn clean package --file pom.xml
+      - name: Build with Maven
+        run: mvn clean package
 
-      - name: Create EXE with jpackage
+      - name: Package EXE with jpackage
         run: |
           jpackage ^
             --name NovaScrape ^
             --type exe ^
             --module-path javafx/lib;app/target;app/target/lib ^
-            --module app/fr.novascrape.Main
+            --module app/fr.nova.novascrape.Main
 
-      - name: Create GitHub release
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: NovaScrape-Windows
+          path: NovaScrape/NovaScrape.exe
+
+  build-macos:
+    name: macOS - Build DMG
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Download JavaFX SDK
+        run: |
+          curl -L -o javafx.zip https://download2.gluonhq.com/openjfx/21.0.8/openjfx-21.0.8_osx-aarch64_bin-sdk.zip
+          unzip javafx.zip -d javafx
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Package DMG with jpackage
+        run: |
+          jpackage \
+            --name NovaScrape \
+            --type dmg \
+            --module-path javafx/javafx-sdk-21.0.8/lib:app/target:app/target/lib \
+            --module app/fr.nova.novascrape.Main
+
+      - name: Upload DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: NovaScrape-macOS
+          path: NovaScrape/NovaScrape.dmg
+
+  release:
+    name: Create GitHub Release
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: NovaScrape-Windows
+          path: dist/windows
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: NovaScrape-macOS
+          path: dist/macos
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: auto-${{ github.run_number }}
-          files: NovaScrape/NovaScrape.exe
+          tag_name: release-${{ github.run_number }}
+          files: |
+            dist/windows/NovaScrape.exe
+            dist/macos/NovaScrape.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
