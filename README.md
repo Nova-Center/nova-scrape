@@ -1,6 +1,6 @@
 ## Technology Stack
 
-- Java 21
+- Java 17
 - JavaFX 21
 - MaterialFX
 - PF4J
